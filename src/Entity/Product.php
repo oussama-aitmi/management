@@ -5,12 +5,16 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
 class Product
 {
+    use TimestampableEntity;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -22,6 +26,12 @@ class Product
      * @ORM\Column(type="string", length=150)
      */
     private $name;
+
+    /**
+     * @ORM\Column(type="string", length=200, unique=true)
+     * @Gedmo\Slug(fields={"name"}, updatable=false, separator="-")
+     */
+    private $slug;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -49,18 +59,25 @@ class Product
     private $imageURL;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="product")
-     */
-    private $categories;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Variation", mappedBy="product", orphanRemoval=true)
      */
     private $variations;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="products")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="product")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
+
     public function __construct()
     {
-        $this->categories = new ArrayCollection();
         $this->variations = new ArrayCollection();
     }
 
@@ -142,37 +159,6 @@ class Product
     }
 
     /**
-     * @return Collection|Category[]
-     */
-    public function getCategories(): Collection
-    {
-        return $this->categories;
-    }
-
-    public function addCategory(Category $category): self
-    {
-        if (!$this->categories->contains($category)) {
-            $this->categories[] = $category;
-            $category->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): self
-    {
-        if ($this->categories->contains($category)) {
-            $this->categories->removeElement($category);
-            // set the owning side to null (unless already changed)
-            if ($category->getProduct() === $this) {
-                $category->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Variation[]
      */
     public function getVariations(): Collection
@@ -199,6 +185,42 @@ class Product
                 $variation->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

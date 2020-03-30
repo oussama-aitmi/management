@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
@@ -24,7 +25,8 @@ class Category
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=200, unique=true)
+     * @Gedmo\Slug(fields={"name"}, updatable=false, separator="-")
      */
     private $slug;
 
@@ -34,12 +36,12 @@ class Category
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="parent", orphanRemoval=true)
      */
     private $subCategories;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="categories")
+     * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="category", orphanRemoval=true)
      */
     private $product;
 
@@ -122,17 +124,33 @@ class Category
         return $this;
     }
 
-    /*
-     * @return Product|null
+    /**
+     * @return Collection|Product[]
      */
-    public function getProduct(): ?Product
+    public function getProduct(): Collection
     {
         return $this->product;
     }
 
-    public function setProduct(?Product $product): self
+    public function addProduct(Product $product): self
     {
-        $this->product = $product;
+        if (!$this->product->contains($product)) {
+            $this->product[] = $product;
+            $product->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->product->contains($product)) {
+            $this->product->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getCategory() === $this) {
+                $product->setCategory(null);
+            }
+        }
 
         return $this;
     }
