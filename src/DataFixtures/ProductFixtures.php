@@ -17,24 +17,6 @@ class ProductFixtures extends BaseFixture implements DependentFixtureInterface
         'product5.jpg'
     ];
 
-    private static $categoriesName = [
-        'Ordinateur et bureau'=>
-            array('Composants et périphériques'
-                    =>array('Processeurs','Cartes mères','Cartes graphiques', 'Souris'),
-                'Ordinateurs portables'
-                    =>array('Portables pour jeux','Tablettes', 'Accessoires pour portables'),
-                'Sécurité et protection'
-                    =>array('Articles de surveillance','Détecteur de fumée','Alarmes et capteurs',
-                    'Contrôle d\'accès'),
-            ),
-        'Beauté et santé',
-        'Bijoux et montres',
-        'Mode homme',
-        'Électronique',
-        'Téléphones et accessoires',
-        'Chaussures'
-    ];
-
     private static $productName = [
         'Xiaomi Mi Band 4 Smart Miband',
         'Bracelet hommes multicouches',
@@ -55,15 +37,14 @@ class ProductFixtures extends BaseFixture implements DependentFixtureInterface
         $this->createMany(10, 'main_product', function($count) use ($manager) {
             $product = new product();
 
-            $product->setName($this->faker->title)
+            $product->setName(self::$productName[$count])
                     ->setStatus(true)
                     ->setBasePrice($this->faker->numberBetween(50, 500))
                     ->setDescription($this->faker->text(50))
                     ->setImageURL($this->faker->randomElement(self::$productImages))
                     ->setSpecialPrice($this->faker->numberBetween(50, 500))
-                    ->setCreatedAt($this->faker->dateTime('now'))
                     ->setUser($this->getRandomReference('main_users'))
-            ;
+                    ->setCategory($this->getRandomReference('main_category'));
 
             return $product;
         });
@@ -78,7 +59,7 @@ class ProductFixtures extends BaseFixture implements DependentFixtureInterface
     {
         return [
             UserFixture::class,
-            CategoryFixture::class
+            CategoryFixtures::class
         ];
     }
 }
