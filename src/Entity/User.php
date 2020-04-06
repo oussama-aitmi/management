@@ -8,10 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity("email" , message="Un utilusateur existe déjà avec ce email")
  */
 class User implements UserInterface
 {
@@ -19,11 +21,15 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("public")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Please enter an email")
+     * @Assert\Email(message="email format incorrect")
+     * @Groups("public")
      */
     private $email;
 
@@ -35,20 +41,26 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Please enter password")
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups("api")
-     * @Assert\NotBlank
+     *
+     * @Assert\EqualTo(propertyPath="password", message="Do not match password")
+     */
+    private $confirm_password;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("public")
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups("api")
-     * @Assert\NotBlank
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Please enter last Name")
+     * @Groups("public")
      */
     private $lastName;
 
@@ -56,6 +68,7 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="user", orphanRemoval=true)
      */
     private $products;
+
 
     public function __construct()
     {
@@ -72,7 +85,7 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 
@@ -116,7 +129,7 @@ class User implements UserInterface
         return (string) $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
@@ -145,7 +158,7 @@ class User implements UserInterface
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): self
+    public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -157,7 +170,7 @@ class User implements UserInterface
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): self
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
 
@@ -193,5 +206,13 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @param mixed $confirm_password
+     */
+    public function setConfirmPassword(?string $confirm_password)
+    {
+        $this->confirm_password = $confirm_password;
     }
 }
