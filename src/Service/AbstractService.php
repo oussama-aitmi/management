@@ -2,26 +2,27 @@
 namespace App\Service;
 
 
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+//use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\ConstraintViolationList;
+use App\Traits\ApiResponseTrait;
+use TTP\Response\ApiResponse;
+
 
 class AbstractService
 {
+
     /**
      * Using Service trait methods
      */
+    use ApiResponseTrait;
+
 
     /**
-     * @var string
+     * @var EntityManager
      */
-    protected $entityName;
-
-    /**
-     *
-     * @var $dataReplacements
-     */
-    protected $dataReplacements = [];
+    protected $em;
 
     /**
      *
@@ -29,22 +30,23 @@ class AbstractService
      */
     protected $extraData = array();
 
-    public function _construct(EntityManager $em, ValidatorInterface $validator)
+    /**
+     * @param EntityManager $em
+     */
+    public function _construct(EntityManager $em)
     {
-        //$this->em = $em;
-        //$this->validator = $validator;
+        /** @var EntityManager $em */
+        $this->em = $em;
     }
 
-
-
-    public function validateResourceData($errors)
+    public function validateData($errors)
     {
         //$entity = $this->getFilter()->getFiltredEntity($data);
 
         //$errors = $this->validate($entity, $group);
 
         return [
-            'errors' => (count($errors) > 0) ? $this->getViolationMessages($errors) : []
+            'error' => (count($errors) > 0) ? $this->getViolationMessages($errors) : []
         ];
     }
 
@@ -77,5 +79,22 @@ class AbstractService
         }
 
         return $formattedErrors;
+    }
+
+    protected function save($object)
+    {
+        $this->em->persist($object);
+        $this->em->flush();
+    }
+
+    protected function delete($object)
+    {
+        $this->em->remove($object);
+        $this->em->flush();
+    }
+
+    protected function entityManager()
+    {
+        return $this->em;
     }
 }
