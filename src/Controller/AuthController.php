@@ -3,17 +3,12 @@
 namespace App\Controller;
 
 use App\Service\AuthService;
-use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Entity\User;
 use Symfony\Component\Validator\ConstraintViolationList;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("api", name="api_")
@@ -39,35 +34,10 @@ class AuthController extends AbstractFOSRestController
      * @param Request $request
      * @return View
      */
-    public function register(Request $request, UserPasswordEncoderInterface $encoder, ValidatorInterface $validator)
+    public function register(Request $request)
     {
-        $this->authService->Register($request);
-
-        $em = $this->getDoctrine()->getManager();
-
-        $email = $request->request->get('email');
-        $password = $request->request->get('password');
-        $firstName = $request->request->get('first_name');
-
-        $user = new User();
-        $user->setEmail($email);
-        $user->setFirstName($firstName);
-        $user->setPassword($encoder->encodePassword($user, $password));
-
-        $errors = $validator->validate($user);
-
-        $errors = $this->validateResourceData($errors);
-
-        //dd($errors);
-
-        if (count($errors)) {
-            return $this->view($errors, Response::HTTP_BAD_REQUEST);
-        }
-
-        $em->persist($user);
-        $em->flush();
-
-        return $this->view($user, Response::HTTP_CREATED)->setContext((new Context())->setGroups(['public']));
+        //throw new \Exception('Order you are looking for cannot be found.');
+        return $this->view($this->authService->Register($request), Response::HTTP_CREATED);
     }
 
     /**
@@ -91,7 +61,7 @@ class AuthController extends AbstractFOSRestController
         //$errors = $this->validate($entity, $group);
 
         return [
-            'errors' => (count($errors) > 0) ? $this->getViolationMessages($errors) : []
+            'error' => (count($errors) > 0) ? $this->getViolationMessages($errors) : []
         ];
     }
 
@@ -106,8 +76,8 @@ class AuthController extends AbstractFOSRestController
         $messages = [];
         foreach ($errors as $error) {
             $messages[] = [
-                'code'         => !empty($error->getConstraint()->payload)
-                    ? $error->getConstraint()->payload : $error->getCode(),
+                /*'code'         => !empty($error->getConstraint()->payload)
+                    ? $error->getConstraint()->payload : $error->getCode(),*/
                 'message'      => $error->getMessage(),
                 'field'        => $error->getPropertyPath(),
                 'invalidValue' => $error->getInvalidValue()

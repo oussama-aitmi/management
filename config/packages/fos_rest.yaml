@@ -20,6 +20,8 @@ fos_rest:
         formats:
             json: true
 
+    body_converter:
+        enabled: true
 
 #fos_rest: null
 #    param_fetcher_listener:  true
