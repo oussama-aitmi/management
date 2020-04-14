@@ -3,17 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="068a1206-9011-4253-941e-84e32acc7cab" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/cache.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/cache.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/fos_rest.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/fos_rest.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/sensio_framework_extra.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/sensio_framework_extra.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AuthController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventListener/ApiExceptionListener.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventListener/ApiExceptionListener.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/ApiResponseException.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/ApiResponseException.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/AbstractService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/AbstractService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/AuthService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/AuthService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Traits/ApiResponseTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Traits/ApiResponseTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/ApiBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/ApiBundle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/BlogBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/BlogBundle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/EventBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/EventBundle" afterDir="false" />
@@ -197,7 +187,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1585952807080</updated>
-      <workItem from="1585952808237" duration="40607000" />
+      <workItem from="1585952808237" duration="41484000" />
     </task>
     <servers />
   </component>
