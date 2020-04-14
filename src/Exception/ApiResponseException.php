@@ -6,7 +6,6 @@ use Exception;
 
 class ApiResponseException extends Exception
 {
-
     /**
      * @param string $message [optional] The Exception message to throw.
      * @param int $code [optional] The Exception code.
@@ -16,5 +15,4 @@ class ApiResponseException extends Exception
     {
         parent::__construct($message, $code, $previous);
     }
-
 }
