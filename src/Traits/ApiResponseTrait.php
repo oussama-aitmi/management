@@ -18,8 +18,9 @@ trait ApiResponseTrait
     protected function renderSuccess(array $result, $code = Response::HTTP_OK): array
     {
         return [
+            'status' => "success",
             'code' => $code,
-            'type' => Response::$statusTexts[$code],
+            'message' => Response::$statusTexts[$code],
             'data'=> $result
         ];
     }
@@ -31,22 +32,30 @@ trait ApiResponseTrait
     protected function renderSuccessPostCreated($result)
     {
         return [
+            'status' => "success",
             'code' => Response::HTTP_CREATED,
-            'type' => Response::$statusTexts[Response::HTTP_CREATED],
+            'message' => Response::$statusTexts[Response::HTTP_CREATED],
             'data'=> $result
         ];
     }
 
     /**
      * @param $result
+     */
+    protected function renderSuccessPostUpdated($result)
+    {
+        $this->renderSuccessPostCreated($result);
+    }
+
+    /**
      * @return array
      */
-    protected function renderSuccessPostDeleted($result)
+    protected function renderSuccessPostDeleted()
     {
         return [
+            'status' => "success",
             'code' => Response::HTTP_NO_CONTENT,
-            'type' => Response::$statusTexts[Response::HTTP_NO_CONTENT],
-            'data'=> $result
+            'message' => Response::$statusTexts[Response::HTTP_NO_CONTENT]
         ];
     }
 
@@ -54,7 +63,7 @@ trait ApiResponseTrait
      * @param string|null $errors
      * @throws ApiResponseException
      */
-    protected function renderNotFoundResponse(?string $errors)
+    protected function renderNotFoundResponse(?string $errors = 'Not Found')
     {
         throw new ApiResponseException($errors, Response::HTTP_NOT_FOUND);
 
@@ -64,10 +73,10 @@ trait ApiResponseTrait
     }
 
     /**
-     * @param string|null $errors
+     * @param string|null|array $errors
      * @throws Exception
      */
-    protected function renderBadRequestResponse(?string $errors)
+    protected function renderBadRequestResponse($errors = null)
     {
         throw new ApiResponseException($errors, Response::HTTP_BAD_REQUEST);
     }
