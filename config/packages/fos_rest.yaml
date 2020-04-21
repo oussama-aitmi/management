@@ -11,8 +11,10 @@ fos_rest:
             - { path: '^/', priorities: ['json'], fallback_format: json}
 
     exception:
-        enabled: true
+        enabled: false
         exception_controller: 'fos_rest.exception.controller:showAction'
+
+
     param_fetcher_listener: true
 
     view:
@@ -22,6 +24,10 @@ fos_rest:
 
     body_converter:
         enabled: true
+        validate: false
+        #validation_errors_argument: validationErrors
+
+
 
 #fos_rest: null
 #    param_fetcher_listener:  true

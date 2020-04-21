@@ -27,6 +27,17 @@ services:
     # please note that last definitions always *replace* previous ones
 
     #Register listener on the kernel.exception
-    App\EventListener\ApiExceptionListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
+
+    #App\EventListener\ApiExceptionListener:
+    #    tags:
+    #        - { name: kernel.event_listener, event: kernel.exception }
+
+    #App\EventSubscriber\ResponseSubscriber:
+        #tags:
+         #   - { name: kernel.event_listener, event: kernel.response }
+         #   - { name: kernel.event_listener, event: kernel.exception }
+
+    #app.normalizer.violation_exception:
+    #    class: App\Normalizer\ConstraintViolationListNormalizer
+    #    tags:
+    #        - { name: app.normalizer }
