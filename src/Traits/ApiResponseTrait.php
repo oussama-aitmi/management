@@ -2,54 +2,31 @@
 
 namespace App\Traits;
 
-use App\Exception\ApiResponseException;
-use Exception;
+use App\Response\ApiResponseException;
+use App\Response\ApiResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 
 trait ApiResponseTrait
 {
-
     /**
-     * @param array $result
+     * @param $errors
      * @param int   $code
-     * @return array
+     * @return ApiResponse
+     * @throws ApiResponseException
      */
-    protected function renderSuccess(array $result, $code = Response::HTTP_OK): array
+    protected function renderFailureResponse($errors, $code = Response::HTTP_BAD_REQUEST): ApiResponse
     {
-        return [
-            'status' => "success",
-            'code' => $code,
-            'message' => Response::$statusTexts[$code],
-            'data'=> $result
-        ];
+        $response = new ApiResponse($code, Response::$statusTexts[$code]);
+
+        $response->set('response', $errors);
+
+        throw new ApiResponseException($response);
     }
 
     /**
-     * @param $result
-     * @return array
-     */
-    protected function renderSuccessPostCreated($result)
-    {
-        return [
-            'status' => "success",
-            'code' => Response::HTTP_CREATED,
-            'message' => Response::$statusTexts[Response::HTTP_CREATED],
-            'data'=> $result
-        ];
-    }
-
-    /**
-     * @param $result
-     */
-    protected function renderSuccessPostUpdated($result)
-    {
-        $this->renderSuccessPostCreated($result);
-    }
-
-    /**
-     * @return array
-     */
+     * @ return array
+     *
     protected function renderSuccessPostDeleted()
     {
         return [
@@ -58,11 +35,6 @@ trait ApiResponseTrait
             'message' => Response::$statusTexts[Response::HTTP_NO_CONTENT]
         ];
     }
-
-    /**
-     * @param string|null $errors
-     * @throws ApiResponseException
-     */
     protected function renderNotFoundResponse(?string $errors = 'Not Found')
     {
         throw new ApiResponseException($errors, Response::HTTP_NOT_FOUND);
@@ -72,31 +44,19 @@ trait ApiResponseTrait
         //}
     }
 
-    /**
-     * @param string|null|array $errors
-     * @throws Exception
-     */
     protected function renderBadRequestResponse($errors = null)
     {
         throw new ApiResponseException($errors, Response::HTTP_BAD_REQUEST);
     }
 
-    /**
-     * @param array $submittedData
-     * @throws Exception
-     */
     protected function failureResponseWithSubmittedData(array $submittedData)
     {
         throw new ApiResponseException($submittedData, Response::HTTP_NOT_FOUND);
     }
 
-    /**
-     * @param array $submittedData
-     * @throws Exception
-     */
     protected function failurePermissionAccess(array $submittedData)
     {
         throw new ApiResponseException($submittedData, Response:: HTTP_BAD_REQUEST);
-    }
+    }*/
 
 }

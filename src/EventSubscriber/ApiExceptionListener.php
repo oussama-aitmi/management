@@ -1,8 +1,9 @@
 <?php
 namespace App\EventListener;
 
-use Symfony\Component\Config\Definition\Exception\Exception;
+use App\Response\ApiResponseException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Throwable;
 
@@ -11,19 +12,17 @@ class ApiExceptionListener
 {
     public function onKernelException(ExceptionEvent $event)
     {
-
-
-        if (!$event->getThrowable() instanceof Exception) {
+        if (!$event->getThrowable() instanceof ApiResponseException) {
             return;
         }
-        //die($event->getThrowable()->getCode());
-        $response = new JsonResponse($this->buildResponseData($event->getThrowable()));
+
+        $response = new JsonResponse($event->getThrowable()->getApiResponse()->toArray());
         $response->setStatusCode($event->getThrowable()->getCode());
 
         $event->setResponse($response);
     }
 
-    private function buildResponseData(Throwable $exception)
+    /*private function buildResponseData(Throwable $exception)
     {
         $messages = json_decode($exception->getMessage());
 
@@ -36,7 +35,7 @@ class ApiExceptionListener
             'code' => $exception->getCode(),
             'message' => $messages,
             'error' => [
-                //'type' => Response::$statusTexts[$exception->getCode()],
+                'type' => Response::$statusTexts[$exception->getCode()],
             ]];
-    }
+    }*/
 }
