@@ -2,15 +2,18 @@
 namespace App\Service;
 
 
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-//use Doctrine\ORM\EntityManager;
-use Symfony\Component\Validator\ConstraintViolationList;
+use App\Response\ApiResponseException;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMException;
 use App\Traits\ApiResponseTrait;
-use TTP\Response\ApiResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
-class AbstractService
+abstract class AbstractService
 {
 
     /**
@@ -18,73 +21,33 @@ class AbstractService
      */
     use ApiResponseTrait;
 
+    protected $model;
 
-    /**
-     * @var EntityManager
-     */
     protected $em;
 
-    /**
-     *
-     * @var $extraData
-     */
-    protected $extraData = array();
+    protected $encoder;
+
+    protected $validator;
 
     /**
-     * @param EntityManager $em
+     * @param EntityManagerInterface $em
+     * @param $entityName
      */
-    public function _construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em, ValidatorInterface $validator, UserPasswordEncoderInterface $encoder)
     {
-        /** @var EntityManager $em */
         $this->em = $em;
-    }
-
-    public function validateData($errors)
-    {
-        //$entity = $this->getFilter()->getFiltredEntity($data);
-
-        //$errors = $this->validate($entity, $group);
-
-        return [
-            'error' => (count($errors) > 0) ? $this->getViolationMessages($errors) : []
-        ];
-    }
-
-    /**
-     * Prepare validation returned errors messages
-     *
-     * @param ConstraintViolationList $errors
-     * @return array
-     */
-    public function getViolationMessages(ConstraintViolationList $errors)
-    {
-        $messages = [];
-        foreach ($errors as $error) {
-            $messages[] = [
-                'code'         => !empty($error->getConstraint()->payload)
-                    ? $error->getConstraint()->payload : $error->getCode(),
-                'message'      => $error->getMessage(),
-                'field'        => $error->getPropertyPath(),
-                'invalidValue' => $error->getInvalidValue()
-            ];
-        }
-        return $messages;
-    }
-
-    private function getErrorsFromValidator($errors)
-    {
-        $formattedErrors = [];
-        foreach ($errors as $error) {
-            $formattedErrors[$error->getPropertyPath()] = $error->getMessage();
-        }
-
-        return $formattedErrors;
+        $this->validator = $validator;
+        $this->encoder = $encoder;
     }
 
     protected function save($object)
     {
-        $this->em->persist($object);
-        $this->em->flush();
+        try {
+            $this->em->persist($object);
+            $this->em->flush();
+        } catch (ORMException $e) {
+            $this->renderFailureResponse($e);
+        }
     }
 
     protected function delete($object)
@@ -97,4 +60,55 @@ class AbstractService
     {
         return $this->em;
     }
+
+    /**
+     * @param $entity
+     * @throws ApiResponseException \ null
+     */
+    protected function validate($entity)
+    {
+        $errors = $this->validator->validate($entity);
+
+        if (\count($errors)) {
+            $this->renderFailureResponse($this->normalizeViolations($errors));
+        }
+    }
+
+    /**
+     * @param object $object
+     * @param null $format
+     * @param array $context
+     * @return array
+     */
+    private function normalizeViolations($object, $format = null)
+    {
+        [$messages, $violations] = $this->getMessagesAndViolations($object);
+
+        return [
+            //'message' => $messages ? implode("\n", $messages) : 'Une erreur est survenue',
+            'form' => $violations,
+        ];
+    }
+
+    /**
+     * @param $constraintViolationList
+     * @return array
+     */
+    private function getMessagesAndViolations($constraintViolationList): array
+    {
+        $violations = $messages = [];
+
+        foreach ($constraintViolationList as $violation) {
+            $violations[] = [
+                'propertyPath' => $violation->getPropertyPath(),
+                'message' => $violation->getMessage(),
+            ];
+
+            $propertyPath = $violation->getPropertyPath();
+            $messages[] = ($propertyPath ? $propertyPath.': ' : '').$violation->getMessage();
+        }
+
+        return [$messages, $violations];
+    }
+
 }

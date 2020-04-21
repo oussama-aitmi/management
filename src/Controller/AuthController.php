@@ -2,9 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Exception\ResourceValidationException;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Psr\Container\ContainerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use FOS\RestBundle\Controller\Annotations\RequestParam;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
 use App\Service\AuthService;
-use FOS\RestBundle\Controller\AbstractFOSRestController;
-use Symfony\Component\Routing\Annotation\Route;
+
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,32 +22,44 @@ use Symfony\Component\Validator\ConstraintViolationList;
 /**
  * @Route("api", name="api_")
  */
-class AuthController extends AbstractFOSRestController
+class AuthController extends BaseController
 {
-    /**
-     * @var AuthService
-     */
-    private $authService;
 
     /**
-     * @param AuthService $authService
-     */
-    public function __construct(AuthService $authService)
-    {
-        $this->authService = $authService;
-    }
-
-
-    /**
-     * @Route("/register", name="api_register")
-     * @param Request $request
+     * @Rest\Post("/register", name="api_register")
+     * @param User $user
+     * @ParamConverter(
+     *     "user",
+     *     converter="fos_rest.request_body",
+     *     options={"deserializationContext"={"groups"={"userCreate"}, "version"="1.0"}},
+     * )
+     * @Rest\View(serializerGroups={"public"}, StatusCode = 201)
      * @return View
      */
-    public function register(Request $request)
+    public function register(User $user, AuthService $authService)
     {
-        //throw new \Exception('Order you are looking for cannot be found.');
-        return $this->view($this->authService->Register($request), Response::HTTP_CREATED);
+        $res = $authService->register($user);
+        return $this->view($res, Response::HTTP_CREATED);
     }
+
+
+    /**
+     * @Rest\Post("/checkEmailExist")
+     * @Rest\View(StatusCode = 202)
+     * @ParamConverter(
+     *     "user",
+     *     converter="fos_rest.request_body",
+     *     options={
+     *         "validator"={ "groups"="userChangeEmail" }
+     *     }
+     * )
+     * @param User                    $user
+     * @param ConstraintViolationList $violations
+     */
+    public function checkExistEmail(User $user, ConstraintViolationList $violations)
+    {
+    }
+
 
     /**
      * @Route("/api", name="api")
@@ -46,43 +67,9 @@ class AuthController extends AbstractFOSRestController
      */
     public function api(Request $request)
     {
-        //dd($request->headers);
         return $this->view([sprintf('Logged in as %s', $this->getUser()->getEmail())],
             Response::HTTP_CREATED)->setContext((new Context())->setGroups(['public'])
         );
     }
 
-
-
-    public function validateResourceData($errors)
-    {
-        //$entity = $this->getFilter()->getFiltredEntity($data);
-
-        //$errors = $this->validate($entity, $group);
-
-        return [
-            'error' => (count($errors) > 0) ? $this->getViolationMessages($errors) : []
-        ];
-    }
-
-    /**
-     * Prepare validation returned errors messages
-     *
-     * @param ConstraintViolationList $errors
-     * @return array
-     */
-    public function getViolationMessages(ConstraintViolationList $errors)
-    {
-        $messages = [];
-        foreach ($errors as $error) {
-            $messages[] = [
-                /*'code'         => !empty($error->getConstraint()->payload)
-                    ? $error->getConstraint()->payload : $error->getCode(),*/
-                'message'      => $error->getMessage(),
-                'field'        => $error->getPropertyPath(),
-                'invalidValue' => $error->getInvalidValue()
-            ];
-        }
-        return $messages;
-    }
 }

@@ -29,7 +29,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank(message="Please enter an email")
      * @Assert\Email(message="email format incorrect")
-     * @Groups("public")
+     * @Groups({"public", "userCreate", "userChangeEmail"})
      */
     private $email;
 
@@ -42,25 +42,26 @@ class User implements UserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\NotBlank(message="Please enter password")
+     * @Groups({ "userCreate", "userChangePassword"})
      */
     private $password;
 
     /**
-     *
      * @Assert\EqualTo(propertyPath="password", message="Do not match password")
+     * @Groups({"userCreate"})
      */
     private $confirm_password;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups("public")
+     * @Groups({"public", "userCreate"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="Please enter last Name")
-     * @Groups("public")
+     * @Groups({"public", "userCreate"})
      */
     private $lastName;
 

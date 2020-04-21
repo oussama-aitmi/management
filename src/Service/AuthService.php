@@ -4,70 +4,33 @@ namespace App\Service;
 
 
 use App\Entity\User;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Doctrine\ORM\EntityManager;
 
 class AuthService extends AbstractService{
 
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $encoder;
 
     /**
-     * @var ValidatorInterface
+     * @param User          $user
+     * @param EntityManager $manager
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface | User
      */
-    private $validator;
-
-    /**
-     * AuthService constructor.
-     *
-     * @param UserPasswordEncoderInterface $encoder
-     * @param ValidatorInterface           $validator
-     */
-    public function __construct(UserPasswordEncoderInterface $encoder, ValidatorInterface $validator)
+    public function register(User $user)
     {
-        $this->encoder = $encoder;
-        $this->validator = $validator;
-    }
+        $this->validate($user);
 
-
-    /**
-     * @param $request
-     * @return User
-     * @throws \App\Exception\ApiResponseException
-     */
-    public function Register($request)
-    {
-        //$this->renderNotFoundResponse('Order you are looking for cannot be found.');
-
-        if (!$request) {
-            die('ddd');
-            //$this->renderNotFoundResponse();
-        }
-
-        $email = $request->request->get('email');
-        $password = $request->request->get('password');
-        $firstName = $request->request->get('first_name');
-        //die('eee');
-
-        $user = new User();
-        $user->setEmail($email);
-        $user->setFirstName($firstName);
-        $user->setPassword($this->encoder->encodePassword($user, $password));
-
-        $errors = $this->validator->validate($user);
-
-        //$errors = $this->validateData($errors);
-
-        if (\count($errors)) {
-            $this->renderBadRequestResponse($errors);
-            //return $this->view($errors, Response::HTTP_BAD_REQUEST);
-        }
+        $user->setPassword($this->encoder->encodePassword($user, $user->getPassword()));
 
         $this->save($user);
 
         return $user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function changePassword(User $user)
+    {
+
     }
 
 }
