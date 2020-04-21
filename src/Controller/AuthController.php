@@ -3,21 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Exception\ResourceValidationException;
+use App\Service\AuthService;
+use FOS\RestBundle\View\View;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\ConstraintViolationList;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Psr\Container\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-use App\Service\AuthService;
-
-use FOS\RestBundle\View\View;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\ConstraintViolationList;
 
 /**
  * @Route("api", name="api_")
@@ -42,9 +37,8 @@ class AuthController extends BaseController
         return $this->view($res, Response::HTTP_CREATED);
     }
 
-
     /**
-     * @Rest\Post("/checkEmailExist")
+     * @Route("/checkEmailExist", methods={"POST", "GET"})
      * @Rest\View(StatusCode = 202)
      * @ParamConverter(
      *     "user",
@@ -60,16 +54,23 @@ class AuthController extends BaseController
     {
     }
 
-
     /**
-     * @Route("/api", name="api")
+     * @Route("/userConnected", methods={"POST", "GET"})
+     * @Rest\View(serializerGroups={"public"}, StatusCode = 202)
      * @return View
      */
-    public function api(Request $request)
+    public function LoggedInUser()
     {
-        return $this->view([sprintf('Logged in as %s', $this->getUser()->getEmail())],
-            Response::HTTP_CREATED)->setContext((new Context())->setGroups(['public'])
-        );
+        return $this->view($this->getUser());
     }
 
+    /**
+     * @Route("/api2", name="api")
+     * @Rest\View(serializerGroups={"public"}, StatusCode = 202)
+     * @return View
+     */
+    public function LoggedInUser2()
+    {
+        return $this->view([sprintf('Logged in as %s', $this->getUser())],Response::HTTP_ACCEPTED);
+    }
 }
