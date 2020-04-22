@@ -3,38 +3,38 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Service\AuthService;
+use App\Service\UserService;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationList;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use FOS\RestBundle\Controller\Annotations\RequestParam;
-use FOS\RestBundle\Controller\Annotations\QueryParam;
+#use FOS\RestBundle\Controller\Annotations\RequestParam;
+#use FOS\RestBundle\Controller\Annotations\QueryParam;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 
 /**
  * @Route("api", name="api_")
  */
-class AuthController extends BaseController
+class UserController extends BaseController
 {
 
     /**
      * @Rest\Post("/register", name="api_register")
-     * @param User $user
+     * @param User        $user
+     * @param UserService $authService
+     * @return View
      * @ParamConverter(
      *     "user",
      *     converter="fos_rest.request_body",
      *     options={"deserializationContext"={"groups"={"userCreate"}, "version"="1.0"}},
      * )
      * @Rest\View(serializerGroups={"public"}, StatusCode = 201)
-     * @return View
      */
-    public function register(User $user, AuthService $authService)
+    public function register(User $user, UserService $authService)
     {
-        $res = $authService->register($user);
-        return $this->view($res, Response::HTTP_CREATED);
+        return $this->view($authService->register($user), Response::HTTP_CREATED);
     }
 
     /**
@@ -55,6 +55,14 @@ class AuthController extends BaseController
     }
 
     /**
+     * @param User $user
+     */
+    public function updatePassword(User $user)
+    {
+
+    }
+
+    /**
      * @Route("/userConnected", methods={"POST", "GET"})
      * @Rest\View(serializerGroups={"public"}, StatusCode = 202)
      * @return View
@@ -65,11 +73,11 @@ class AuthController extends BaseController
     }
 
     /**
-     * @Route("/api2", name="api")
+     * @Route("/api", name="api")
      * @Rest\View(serializerGroups={"public"}, StatusCode = 202)
      * @return View
      */
-    public function LoggedInUser2()
+    public function api()
     {
         return $this->view([sprintf('Logged in as %s', $this->getUser())],Response::HTTP_ACCEPTED);
     }
