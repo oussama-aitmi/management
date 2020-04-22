@@ -70,10 +70,16 @@ class User implements UserInterface
      */
     private $products;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="user", orphanRemoval=true)
+     */
+    private $categories;
+
 
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -215,5 +221,36 @@ class User implements UserInterface
     public function setConfirmPassword(?string $confirm_password)
     {
         $this->confirm_password = $confirm_password;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+            $category->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
+            // set the owning side to null (unless already changed)
+            if ($category->getUser() === $this) {
+                $category->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

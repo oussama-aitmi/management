@@ -2,18 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="068a1206-9011-4253-941e-84e32acc7cab" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Service/UserService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BaseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventSubscriber/ResponseSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventSubscriber/ResponseSubscriber.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Normalizer/ConstraintViolationListNormalizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalizer/ConstraintViolationListNormalizer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Response/ApiResponse.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Response/ApiResponse.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/AbstractService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/AbstractService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/AuthService.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/ApiBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/ApiBundle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/BlogBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/BlogBundle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/EventBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/EventBundle" afterDir="false" />
@@ -203,7 +191,7 @@
       <option name="presentableId" value="Default" />
       <updated>1585952807080</updated>
       <workItem from="1585952808237" duration="69859000" />
-      <workItem from="1587046919781" duration="51840000" />
+      <workItem from="1587046919781" duration="52011000" />
     </task>
     <servers />
   </component>
