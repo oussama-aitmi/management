@@ -45,7 +45,7 @@ class ApiResponse
             array(
                 'status' =>  "fail",
                 'code' => $this->statusCode,
-                'message' => $this->title
+                'title' => $this->title
             ),
 
             ['error' => $this->extraData['response']]

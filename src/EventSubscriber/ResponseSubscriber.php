@@ -56,7 +56,7 @@ class ResponseSubscriber implements EventSubscriberInterface
             array(
                 'status' => 'success',
                 'code'=> $code,
-                'message' => Response::$statusTexts[$code],
+                'title' => Response::$statusTexts[$code],
                 'data'=> json_decode( $response, true)
             );
     }
