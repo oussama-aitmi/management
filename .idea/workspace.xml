@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="068a1206-9011-4253-941e-84e32acc7cab" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Service/UserService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/BaseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BaseController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventSubscriber/ResponseSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventSubscriber/ResponseSubscriber.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Normalizer/ConstraintViolationListNormalizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Normalizer/ConstraintViolationListNormalizer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Response/ApiResponse.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Response/ApiResponse.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/AbstractService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/AbstractService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/AuthService.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/ApiBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/ApiBundle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/BlogBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/BlogBundle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/EventBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/EventBundle" afterDir="false" />
@@ -19,7 +29,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
@@ -166,15 +176,20 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
+    <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/Traits" />
-      <recent name="$PROJECT_DIR$/src/trait" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/Exception" />
+      <recent name="$PROJECT_DIR$/src/EventListener" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/EventSubscriber" />
+      <recent name="$PROJECT_DIR$/src/EventListener" />
+      <recent name="$PROJECT_DIR$/src/Response" />
+      <recent name="$PROJECT_DIR$/src/Traits" />
+      <recent name="$PROJECT_DIR$/src/trait" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -187,7 +202,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1585952807080</updated>
-      <workItem from="1585952808237" duration="41484000" />
+      <workItem from="1585952808237" duration="69859000" />
+      <workItem from="1587046919781" duration="51840000" />
     </task>
     <servers />
   </component>
@@ -195,10 +211,10 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="354" y="135" key="#Inspections" timestamp="1586731872893">
+    <state x="354" y="135" key="#Inspections" timestamp="1587212432625">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="354" y="135" key="#Inspections/0.0.1440.900@0.0.1440.900" timestamp="1586731872893" />
+    <state x="354" y="135" key="#Inspections/0.0.1440.900@0.0.1440.900" timestamp="1587212432625" />
     <state x="320" y="87" width="800" height="813" key="#Intentions" timestamp="1586816441822">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -207,56 +223,49 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="184" y="112" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1586088063833" />
+    <state x="526" y="139" key="#com.intellij.ide.util.MemberChooser" timestamp="1587253113197">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="526" y="139" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1587253113197" />
     <state x="444" y="204" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1586176200525">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="444" y="204" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1440.900@0.0.1440.900" timestamp="1586176200525" />
-    <state x="289" y="87" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1586216235169">
+    <state x="289" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1587596143199">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="289" y="87" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.900@0.0.1440.900" timestamp="1586216235169" />
-    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1586819339397">
+    <state x="289" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.900@0.0.1440.900" timestamp="1587596143199" />
+    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1587566085754">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.900@0.0.1440.900" timestamp="1586819339397" />
+    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.900@0.0.1440.900" timestamp="1587566085754" />
     <state x="308" y="192" key="IDE.errors.dialog" timestamp="1586012517110">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="308" y="192" key="IDE.errors.dialog/0.0.1440.900@0.0.1440.900" timestamp="1586012517110" />
-    <state x="451" y="183" key="NewPhpClassDialog" timestamp="1586305218435">
+    <state x="451" y="183" key="NewPhpClassDialog" timestamp="1587252907880">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="451" y="183" key="NewPhpClassDialog/0.0.1440.900@0.0.1440.900" timestamp="1586305218435" />
-    <state x="541" y="380" key="NewPhpFileDialog" timestamp="1586182105354">
+    <state x="451" y="183" key="NewPhpClassDialog/0.0.1440.900@0.0.1440.900" timestamp="1587252907880" />
+    <state x="541" y="380" key="NewPhpFileDialog" timestamp="1586875272778">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="541" y="380" key="NewPhpFileDialog/0.0.1440.900@0.0.1440.900" timestamp="1586182105354" />
+    <state x="541" y="380" key="NewPhpFileDialog/0.0.1440.900@0.0.1440.900" timestamp="1586875272778" />
     <state width="500" height="445" key="SwitcherDM" timestamp="1586291133602">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="500" height="445" key="SwitcherDM/0.0.1440.900@0.0.1440.900" timestamp="1586291133602" />
-    <state x="469" y="147" key="com.jetbrains.php.test.PhpNewTestDialog" timestamp="1586612983996">
+    <state x="469" y="147" key="com.jetbrains.php.test.PhpNewTestDialog" timestamp="1587557426893">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="469" y="147" key="com.jetbrains.php.test.PhpNewTestDialog/0.0.1440.900@0.0.1440.900" timestamp="1586612983996" />
-    <state x="240" y="97" width="994" height="670" key="find.popup" timestamp="1586303253413">
+    <state x="469" y="147" key="com.jetbrains.php.test.PhpNewTestDialog/0.0.1440.900@0.0.1440.900" timestamp="1587557426893" />
+    <state x="240" y="97" width="994" height="670" key="find.popup" timestamp="1587298392803">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="240" y="97" width="994" height="670" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1586303253413" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1586382207044">
+    <state x="240" y="97" width="994" height="670" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1587298392803" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1587566560591">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1586382207044" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/vendor/friendsofsymfony/rest-bundle/View/View.php</url>
-          <line>13</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1587566560591" />
   </component>
 </project>

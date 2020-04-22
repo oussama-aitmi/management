@@ -6,7 +6,6 @@ namespace App\Normalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
-
 /**
  * Class ConstraintViolationListNormalizer
  * @package App\Infrastructure\Normalizer
@@ -46,7 +45,6 @@ final class ConstraintViolationListNormalizer implements NormalizerInterface
             $violations[] = [
                 'propertyPath' => $violation->getPropertyPath(),
                 'message' => $violation->getMessage(),
-                //'code' => $violation->getCode(),
             ];
 
             $propertyPath = $violation->getPropertyPath();
