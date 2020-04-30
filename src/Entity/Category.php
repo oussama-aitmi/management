@@ -6,9 +6,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\CategoryValidator;
+use App\Validator\Constraints\CategoryConstraint;
+
 
 /**
+ * Category
+ *
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ * @CategoryConstraint
  */
 class Category
 {
@@ -16,27 +24,39 @@ class Category
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"public", "allowPosted"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     */
+     * @Groups({"public", "allowPosted"})
+     * @Assert\NotBlank(message="le nom de catégorie est obligatoire")
+     * @Assert\Length(
+     * min = "3",
+     * max = "100",
+     * minMessage = "Nom categorie doit faire au moins 3 caractères",
+     * maxMessage = "Nom categorie ne peut pas être plus long que 100 caractères")
+     */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=200, unique=true)
      * @Gedmo\Slug(fields={"name"}, updatable=false, separator="-")
+     * @Groups({"public"})
      */
     private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="subCategories")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true)
+     * @Groups({"allowPosted"})
      */
     private $parent;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="parent", orphanRemoval=true)
+     * @Groups({"public"})
      */
     private $subCategories;
 
@@ -47,7 +67,8 @@ class Category
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="categories")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
+     * @Assert\NotBlank(message="Please enter user Id")
      */
     private $user;
 
@@ -55,7 +76,7 @@ class Category
     public function __construct()
     {
         $this->subCategories = new ArrayCollection();
-        $this->product = new ArrayCollection();
+        //$this->product = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,7 +92,6 @@ class Category
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -83,7 +103,6 @@ class Category
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
-
         return $this;
     }
 
@@ -92,10 +111,9 @@ class Category
         return $this->parent;
     }
 
-    public function setParent(?self $parent): self
+    public function setParent( $parent)
     {
         $this->parent = $parent;
-
         return $this;
     }
 
@@ -169,7 +187,6 @@ class Category
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
     
