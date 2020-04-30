@@ -6,7 +6,6 @@ namespace App\Service;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserService extends AbstractService{
@@ -45,8 +44,7 @@ class UserService extends AbstractService{
     }
 
     /**
-     * @param User          $user
-     * @return ConstraintViolationListInterface | User
+     * @param User  $user
      */
     public function register(User $user)
     {
