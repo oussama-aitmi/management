@@ -17,6 +17,7 @@ class ResponseSubscriber implements EventSubscriberInterface
 
     public function onKernelException(ExceptionEvent $event)
     {
+
         if (!$event->getThrowable() instanceof ApiResponseException) {
             return;
         }

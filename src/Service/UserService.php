@@ -25,7 +25,6 @@ class UserService extends AbstractService{
      */
     protected $validator;
 
-
     /**
      * AuthService constructor.
      *
@@ -37,7 +36,7 @@ class UserService extends AbstractService{
         UserRepository $userRepository,
         ValidatorInterface $validator,
         UserPasswordEncoderInterface $encoder
-    ) {
+    ){
         $this->validator = $validator;
         $this->encoder = $encoder;
         $this->userRepository = $userRepository;

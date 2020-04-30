@@ -121,5 +121,5 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/event-manager" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
 </project>

@@ -17,3 +17,7 @@ framework:
 
     serializer:
         enabled: true
+
+    #enable Recursive Denormalization In order for Symfony to find the property types of the deserialize nested json objects
+    #property_info:
+        #enabled: false
