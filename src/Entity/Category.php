@@ -37,7 +37,11 @@ class Category
      * max = "100",
      * minMessage = "Nom categorie doit faire au moins 3 caractères",
      * maxMessage = "Nom categorie ne peut pas être plus long que 100 caractères")
-     */
+     * @Assert\Regex(
+     *     pattern="/[a-zA-Z0-9]/",
+     *     match=false,
+     *     message="Nom categorie invalide")
+      */
     private $name;
 
     /**

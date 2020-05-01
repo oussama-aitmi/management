@@ -14,7 +14,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Product
 {
     use TimestampableEntity;
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -24,6 +23,10 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=150)
+     * @Assert\Regex(
+     *     pattern="/[a-zA-Z0-9]/",
+     *     match=false,
+     *     message="Désignation est invalide")
      */
     private $name;
 
@@ -34,29 +37,73 @@ class Product
     private $slug;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="string", length=150)
+     * @Assert\NotBlank(
+     *      message = "Reference ne doit pas être vide",
+     * )
      */
-    private $status;
-
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
-     */
-    private $basePrice;
-
-    /**
-     * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
-     */
-    private $specialPrice;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $description;
+    private $reference;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $imageURL;
+    private $smallDescription;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     * @Assert\Choice(
+     *     choices = {"DRAFT", "PUBLISHED", "DELETED"},
+     *     message = "Status est invalide",
+     * )
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(name="status_store", type="boolean", nullable=true)
+     */
+    private $statusStore;
+
+    /**
+     * @ORM\Column(name="status_site_web", type="boolean", nullable=true)
+     */
+    private $statusSiteWeb;
+
+    /**
+     * @ORM\Column(type="decimal", precision=5, scale=2)
+     * @Assert\NotBlank(
+     *      message = "Prix d'achat est invalide",
+     * )
+     */
+    private $basePrice;
+
+    /**
+     * @ORM\Column(type="decimal", precision=5, scale=2)
+     * @Assert\NotBlank(
+     *      message = "Prix de vente est invalide",
+     * )
+     */
+    private $sellPrice;
+
+    /**
+     * @ORM\Column(name="minimum_sales_quantity", type="integer", nullable=true)
+     * @Assert\Positive(message = "quantité minimale de vente est invalide",)
+     */
+    private $minimumSalesQuantity;
+
+    /**
+     * @ORM\Column(name="maximum_sales_quantity", type="integer", nullable=true)
+     * @Assert\Positive(message = "quantité maximale de vente est invalide",)
+     */
+    private $maximumSalesQuantity;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Positive(message = "quantité maximale de vente est invalide")
+     */
+    private $quantity;
+
+
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Variation", mappedBy="product", orphanRemoval=true)
@@ -118,42 +165,6 @@ class Product
     public function setBasePrice(string $basePrice): self
     {
         $this->basePrice = $basePrice;
-
-        return $this;
-    }
-
-    public function getSpecialPrice(): ?string
-    {
-        return $this->specialPrice;
-    }
-
-    public function setSpecialPrice(?string $specialPrice): self
-    {
-        $this->specialPrice = $specialPrice;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getImageURL(): ?string
-    {
-        return $this->imageURL;
-    }
-
-    public function setImageURL(?string $imageURL): self
-    {
-        $this->imageURL = $imageURL;
 
         return $this;
     }
@@ -223,5 +234,133 @@ class Product
         $this->category = $category;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReference()
+    {
+        return $this->reference;
+    }
+
+    /**
+     * @param mixed $reference
+     */
+    public function setReference($reference): void
+    {
+        $this->reference = $reference;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSmallDescription()
+    {
+        return $this->smallDescription;
+    }
+
+    /**
+     * @param mixed $smallDescription
+     */
+    public function setSmallDescription($smallDescription): void
+    {
+        $this->smallDescription = $smallDescription;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatusStore()
+    {
+        return $this->statusStore;
+    }
+
+    /**
+     * @param mixed $statusStore
+     */
+    public function setStatusStore($statusStore): void
+    {
+        $this->statusStore = $statusStore;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatusSiteWeb()
+    {
+        return $this->statusSiteWeb;
+    }
+
+    /**
+     * @param mixed $statusSiteWeb
+     */
+    public function setStatusSiteWeb($statusSiteWeb): void
+    {
+        $this->statusSiteWeb = $statusSiteWeb;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSellPrice()
+    {
+        return $this->sellPrice;
+    }
+
+    /**
+     * @param mixed $sellPrice
+     */
+    public function setSellPrice($sellPrice): void
+    {
+        $this->sellPrice = $sellPrice;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMinimumSalesQuantity()
+    {
+        return $this->minimumSalesQuantity;
+    }
+
+    /**
+     * @param mixed $minimumSalesQuantity
+     */
+    public function setMinimumSalesQuantity($minimumSalesQuantity): void
+    {
+        $this->minimumSalesQuantity = $minimumSalesQuantity;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaximumSalesQuantity()
+    {
+        return $this->maximumSalesQuantity;
+    }
+
+    /**
+     * @param mixed $maximumSalesQuantity
+     */
+    public function setMaximumSalesQuantity($maximumSalesQuantity): void
+    {
+        $this->maximumSalesQuantity = $maximumSalesQuantity;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param mixed $quantity
+     */
+    public function setQuantity($quantity): void
+    {
+        $this->quantity = $quantity;
     }
 }
