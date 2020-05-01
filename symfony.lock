@@ -2,18 +2,6 @@
     "behat/transliterator": {
         "version": "v1.3.0"
     },
-    "bukashk0zzz/filter-bundle": {
-        "version": "2.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.0",
-            "ref": "0f1035a5f7174f09663157a87f9a0849e85ed369"
-        },
-        "files": [
-            "config/packages/bukashk0zzz_filter.yaml"
-        ]
-    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -104,6 +92,18 @@
     },
     "doctrine/reflection": {
         "version": "1.2.0"
+    },
+    "easycorp/easy-log-handler": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "70062abc2cd58794d2a90274502f81b55cd9951b"
+        },
+        "files": [
+            "config/packages/dev/easy_log_handler.yaml"
+        ]
     },
     "egulias/email-validator": {
         "version": "2.1.17"
@@ -299,7 +299,7 @@
         ]
     },
     "symfony/form": {
-        "version": "v4.4.0"
+        "version": "v4.4.5"
     },
     "symfony/framework-bundle": {
         "version": "4.4",
@@ -381,7 +381,7 @@
         ]
     },
     "symfony/options-resolver": {
-        "version": "v4.4.0"
+        "version": "v4.4.5"
     },
     "symfony/orm-pack": {
         "version": "v1.0.8"
@@ -514,6 +514,9 @@
             "templates/base.html.twig"
         ]
     },
+    "symfony/twig-pack": {
+        "version": "v1.0.0"
+    },
     "symfony/validator": {
         "version": "4.3",
         "recipe": {
@@ -562,6 +565,9 @@
     "symfony/yaml": {
         "version": "v4.4.5"
     },
+    "twig/extra-bundle": {
+        "version": "v3.0.3"
+    },
     "twig/twig": {
         "version": "v2.12.5"
     },
@@ -578,12 +584,6 @@
         "version": "3.4.1"
     },
     "zendframework/zend-eventmanager": {
-        "version": "3.2.1"
-    },
-    "zendframework/zend-filter": {
-        "version": "2.9.2"
-    },
-    "zendframework/zend-stdlib": {
         "version": "3.2.1"
     }
 }
