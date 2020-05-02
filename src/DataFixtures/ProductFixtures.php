@@ -31,20 +31,31 @@ class ProductFixtures extends BaseFixture implements DependentFixtureInterface
         'Imprimente Laser SSE'
         ];
 
+    private static $status =[ "DRAFT", "PUBLISHED", "DELETED" ];
+
 
     protected function loadData(ObjectManager $manager)
     {
         $this->createMany(10, 'main_product', function($count) use ($manager) {
+
             $product = new product();
 
             $product->setName(self::$productName[$count])
-                    ->setStatus(true)
-                    ->setBasePrice($this->faker->numberBetween(50, 500))
-                    ->setDescription($this->faker->text(50))
-                    ->setImageURL($this->faker->randomElement(self::$productImages))
-                    ->setSpecialPrice($this->faker->numberBetween(50, 500))
-                    ->setUser($this->getRandomReference('main_users'))
-                    ->setCategory($this->getRandomReference('main_category'));
+            ->setBasePrice($this->faker->numberBetween(50, 500))
+            ->setSmallDescription($this->faker->text(50))
+            //->setImageURL($this->faker->randomElement(self::$productImages))
+            ->setBasePrice($this->faker->numberBetween(50, 500))
+            ->setSellPrice($this->faker->numberBetween(50, 500))
+            ->setMinimumSalesQuantity($this->faker->numberBetween(50, 500))
+            ->setMaximumSalesQuantity($this->faker->numberBetween(50, 500))
+            ->setQuantity($this->faker->numberBetween(50, 500))
+            ->setReference($this->faker->numberBetween(5, 10))
+            ->setStatus($this->faker->randomElement(self::$status))
+            ->setStatusStore(false)
+            ->setStatusSiteWeb(true)
+
+            ->setUser($this->getRandomReference('main_users'))
+            ->setCategory($this->getRandomReference('main_category'));
 
             return $product;
         });
