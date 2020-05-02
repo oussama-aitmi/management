@@ -7,6 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -18,6 +21,7 @@ class Product
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"public", "allowPosted"})
      */
     private $id;
 
@@ -27,12 +31,14 @@ class Product
      *     pattern="/[a-zA-Z0-9]/",
      *     match=false,
      *     message="Désignation est invalide")
+     * @Groups({"public", "allowPosted"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=200, unique=true)
      * @Gedmo\Slug(fields={"name"}, updatable=false, separator="-")
+     * @Groups({"public"})
      */
     private $slug;
 
@@ -41,11 +47,13 @@ class Product
      * @Assert\NotBlank(
      *      message = "Reference ne doit pas être vide",
      * )
+     * @Groups({"public", "allowPosted"})
      */
     private $reference;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"public", "allowPosted"})
      */
     private $smallDescription;
 
@@ -55,16 +63,19 @@ class Product
      *     choices = {"DRAFT", "PUBLISHED", "DELETED"},
      *     message = "Status est invalide",
      * )
+     * @Groups({"public", "allowPosted"})
      */
     private $status;
 
     /**
      * @ORM\Column(name="status_store", type="boolean", nullable=true)
+     * @Groups({"public", "allowPosted"})
      */
     private $statusStore;
 
     /**
      * @ORM\Column(name="status_site_web", type="boolean", nullable=true)
+     * @Groups({"public", "allowPosted"})
      */
     private $statusSiteWeb;
 
@@ -73,6 +84,7 @@ class Product
      * @Assert\NotBlank(
      *      message = "Prix d'achat est invalide",
      * )
+     * @Groups({"public", "allowPosted"})
      */
     private $basePrice;
 
@@ -81,32 +93,34 @@ class Product
      * @Assert\NotBlank(
      *      message = "Prix de vente est invalide",
      * )
+     * @Groups({"public", "allowPosted"})
      */
     private $sellPrice;
 
     /**
      * @ORM\Column(name="minimum_sales_quantity", type="integer", nullable=true)
-     * @Assert\Positive(message = "quantité minimale de vente est invalide",)
+     * @Assert\Positive(message = "quantité minimale de vente est invalide")
+     * @Groups({"public", "allowPosted"})
      */
     private $minimumSalesQuantity;
 
     /**
      * @ORM\Column(name="maximum_sales_quantity", type="integer", nullable=true)
-     * @Assert\Positive(message = "quantité maximale de vente est invalide",)
+     * @Assert\Positive(message = "quantité maximale de vente est invalide")
+     * @Groups({"public", "allowPosted"})
      */
     private $maximumSalesQuantity;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive(message = "quantité maximale de vente est invalide")
+     * @Assert\Positive(message = "quantité de vente est invalide")
+     * @Groups({"public", "allowPosted"})
      */
     private $quantity;
 
-
-
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Variation", mappedBy="product", orphanRemoval=true)
+     * @Groups({"variations", "allowPosted"})
      */
     private $variations;
 
@@ -141,7 +155,6 @@ class Product
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -153,7 +166,6 @@ class Product
     public function setStatus(?bool $status): self
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -165,7 +177,6 @@ class Product
     public function setBasePrice(string $basePrice): self
     {
         $this->basePrice = $basePrice;
-
         return $this;
     }
 
@@ -232,7 +243,6 @@ class Product
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
-
         return $this;
     }
 
@@ -247,9 +257,10 @@ class Product
     /**
      * @param mixed $reference
      */
-    public function setReference($reference): void
+    public function setReference($reference): self
     {
         $this->reference = $reference;
+        return $this;
     }
 
     /**
@@ -263,9 +274,10 @@ class Product
     /**
      * @param mixed $smallDescription
      */
-    public function setSmallDescription($smallDescription): void
+    public function setSmallDescription($smallDescription): self
     {
         $this->smallDescription = $smallDescription;
+        return $this;
     }
 
     /**
@@ -279,9 +291,10 @@ class Product
     /**
      * @param mixed $statusStore
      */
-    public function setStatusStore($statusStore): void
+    public function setStatusStore($statusStore): self
     {
         $this->statusStore = $statusStore;
+        return $this;
     }
 
     /**
@@ -295,9 +308,10 @@ class Product
     /**
      * @param mixed $statusSiteWeb
      */
-    public function setStatusSiteWeb($statusSiteWeb): void
+    public function setStatusSiteWeb($statusSiteWeb): self
     {
         $this->statusSiteWeb = $statusSiteWeb;
+        return $this;
     }
 
     /**
@@ -311,9 +325,10 @@ class Product
     /**
      * @param mixed $sellPrice
      */
-    public function setSellPrice($sellPrice): void
+    public function setSellPrice($sellPrice): self
     {
         $this->sellPrice = $sellPrice;
+        return $this;
     }
 
     /**
@@ -327,9 +342,10 @@ class Product
     /**
      * @param mixed $minimumSalesQuantity
      */
-    public function setMinimumSalesQuantity($minimumSalesQuantity): void
+    public function setMinimumSalesQuantity($minimumSalesQuantity): self
     {
         $this->minimumSalesQuantity = $minimumSalesQuantity;
+        return $this;
     }
 
     /**
@@ -343,9 +359,10 @@ class Product
     /**
      * @param mixed $maximumSalesQuantity
      */
-    public function setMaximumSalesQuantity($maximumSalesQuantity): void
+    public function setMaximumSalesQuantity($maximumSalesQuantity): self
     {
         $this->maximumSalesQuantity = $maximumSalesQuantity;
+        return $this;
     }
 
     /**
@@ -359,8 +376,9 @@ class Product
     /**
      * @param mixed $quantity
      */
-    public function setQuantity($quantity): void
+    public function setQuantity($quantity): self
     {
         $this->quantity = $quantity;
+        return $this;
     }
 }

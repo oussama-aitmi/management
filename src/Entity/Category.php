@@ -80,7 +80,7 @@ class Category
     public function __construct()
     {
         $this->subCategories = new ArrayCollection();
-        //$this->product = new ArrayCollection();
+        $this->product = new ArrayCollection();
     }
 
     public function getId(): ?int

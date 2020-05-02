@@ -78,8 +78,8 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
-        $this->categories = new ArrayCollection();
+        //$this->products = new ArrayCollection();
+        //$this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
