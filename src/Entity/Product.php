@@ -27,10 +27,9 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=150)
-     * @Assert\Regex(
-     *     pattern="/[a-zA-Z0-9]/",
-     *     match=false,
-     *     message="Désignation est invalide")
+     * @Assert\NotBlank(
+     *      message = "Désignation est invalide",
+     * )
      * @Groups({"public", "allowPosted"})
      */
     private $name;
@@ -65,7 +64,7 @@ class Product
      * )
      * @Groups({"public", "allowPosted"})
      */
-    private $status;
+    private $status = "PUBLISHED";
 
     /**
      * @ORM\Column(name="status_store", type="boolean", nullable=true)
@@ -98,22 +97,26 @@ class Product
     private $sellPrice;
 
     /**
-     * @ORM\Column(name="minimum_sales_quantity", type="integer", nullable=true)
+     * @ORM\Column(name="minimum_sales_quantity", type="digit", nullable=true)
      * @Assert\Positive(message = "quantité minimale de vente est invalide")
      * @Groups({"public", "allowPosted"})
      */
     private $minimumSalesQuantity;
 
     /**
-     * @ORM\Column(name="maximum_sales_quantity", type="integer", nullable=true)
+     * @ORM\Column(name="maximum_sales_quantity", type="digit", nullable=true)
      * @Assert\Positive(message = "quantité maximale de vente est invalide")
      * @Groups({"public", "allowPosted"})
      */
     private $maximumSalesQuantity;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive(message = "quantité de vente est invalide")
+     * @ORM\Column(type="digit", nullable=true)
+     * @Assert\Type(type="numeric", message="Quantité invalide.")
+     * @Assert\Positive(message = "Quantité doit être supérieure de 0")
+     * @Assert\NotBlank(
+     *      message = "Quantité ne doit pas être vide",
+     * )
      * @Groups({"public", "allowPosted"})
      */
     private $quantity;
@@ -163,7 +166,7 @@ class Product
         return $this->status;
     }
 
-    public function setStatus(?bool $status): self
+    public function setStatus($status): self
     {
         $this->status = $status;
         return $this;
@@ -194,7 +197,6 @@ class Product
             $this->variations[] = $variation;
             $variation->setProduct($this);
         }
-
         return $this;
     }
 
@@ -207,7 +209,6 @@ class Product
                 $variation->setProduct(null);
             }
         }
-
         return $this;
     }
 
@@ -219,7 +220,6 @@ class Product
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -231,7 +231,6 @@ class Product
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
-
         return $this;
     }
 
@@ -373,12 +372,9 @@ class Product
         return $this->quantity;
     }
 
-    /**
-     * @param mixed $quantity
-     */
-    public function setQuantity($quantity): self
+    public function setQuantity( $quantity): self
     {
-        $this->quantity = $quantity;
+        $this->quantity = !empty($quantity) ? $quantity : 0;
         return $this;
     }
 }

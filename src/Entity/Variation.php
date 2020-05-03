@@ -46,8 +46,12 @@ class Variation
     private $sellPrice;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive(message = "quantité de vente est invalide")
+     * @ORM\Column(type="digit", nullable=true)
+     * @Assert\Type(type="numeric", message="Quantité invalide.")
+     * @Assert\Positive(message = "Quantité doit être supérieure de 0")
+     * @Assert\NotBlank(
+     *      message = "Quantité ne doit pas être vide",
+     * )
      * @Groups({"public", "allowPosted"})
      */
     private $quantity;
@@ -130,21 +134,14 @@ class Variation
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getQuantity()
     {
         return $this->quantity;
     }
 
-    /**
-     * @param mixed $quantity
-     * @return Variation
-     */
-    public function setQuantity($quantity)
+    public function setQuantity($quantity): self
     {
-        $this->quantity = $quantity;
+        $this->quantity = !empty($quantity) ? $quantity : 0;
         return $this;
     }
 
