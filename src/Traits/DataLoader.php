@@ -51,6 +51,6 @@ trait DataLoader
      */
     protected function getMethod(string $property)
     {
-        return sprintf('set%s' . ucfirst($property));
+        return sprintf('set%s' . ucfirst($property), null);
     }
 }
