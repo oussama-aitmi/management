@@ -14,14 +14,14 @@ abstract class AbstractService
 
 
     /**
-     * @param object $object
+     * @param  $violations
      * @param null $format
      * @param array $context
      * @return array
      */
-    public function normalizeViolations($object, $format = null)
+    public function normalizeViolations($violations, $format = null)
     {
-        [$messages, $violations] = $this->getMessagesAndViolations($object);
+        //[$messages, $violations] = $this->getMessagesAndViolations($object);
 
         return [
             //'message' => $messages ? implode("\n", $messages) : 'Une erreur est survenue',
@@ -47,7 +47,8 @@ abstract class AbstractService
             $messages[] = ($propertyPath ? $propertyPath.': ' : '').$violation->getMessage();
         }
 
-        return [$messages, $violations];
+        return $violations;
+        //return [$messages, $violations];
     }
 
 }

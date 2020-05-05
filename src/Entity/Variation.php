@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\DataLoader;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,6 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Variation
 {
+    use DataLoader;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -29,33 +32,25 @@ class Variation
 
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2)
-     * @Assert\NotBlank(
-     *      message = "Prix d'achat est invalide",
-     * )
+     * @Assert\Positive(message = "Prix d'achat est invalide")
      * @Groups({"public", "allowPosted"})
      */
     private $basePrice;
 
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2)
-     * @Assert\NotBlank(
-     *      message = "Prix de vente est invalide",
-     * )
+     * @Assert\Positive( message="Prix de vente est invalide")
      * @Groups({"public", "allowPosted"})
      */
     private $sellPrice;
 
     /**
-     * @ORM\Column(type="digit", nullable=true)
-     * @Assert\Type(type="numeric", message="Quantité invalide.")
-     * @Assert\Positive(message = "Quantité doit être supérieure de 0")
-     * @Assert\NotBlank(
-     *      message = "Quantité ne doit pas être vide",
-     * )
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Positive(message = "Quantité est invalide")
      * @Groups({"public", "allowPosted"})
      */
     private $quantity;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="variations")
      * @ORM\JoinColumn(nullable=false)
@@ -67,7 +62,6 @@ class Variation
     {
         return $this->id;
     }
-
 
     public function getProduct(): ?Product
     {

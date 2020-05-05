@@ -19,32 +19,10 @@ class VariationRepository extends ServiceEntityRepository
         parent::__construct($registry, Variation::class);
     }
 
-    // /**
-    //  * @return Variation[] Returns an array of Variation objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function loadData($data)
     {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('v.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $variation = new Variation();
+        return $variation->loadData($data);
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Variation
-    {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
