@@ -37,22 +37,15 @@ class ProductController extends BaseController
 
     /**
      * @Rest\Post("/product", name="post_product")
-     * @param Product $product
      * @param Request  $request
      * @return View
      * @throws \App\Response\ApiResponseException
-     * @ParamConverter(
-     *     "product",
-     *     converter="fos_rest.request_body",
-     *     options={"deserializationContext"={"groups"={"allowPosted"}, "version"="1.0"}},
-     * )
-     * @Rest\View(serializerGroups={"public"},serializerEnableMaxDepthChecks=1, StatusCode = 201)
+     *
+     * @Rest\View(serializerGroups={"public"}, serializerEnableMaxDepthChecks=1, StatusCode = 201)
      */
-    public function postProduct(Product $product ,Request $request): View
+    public function postProduct(Request $request): View
     {
-        $data = $request->request->all();
-
-        return $this->view($this->productService->addProduct($product, $data));
+        return $this->view($this->productService->createProduct($request->request->all()));
     }
 
     /**

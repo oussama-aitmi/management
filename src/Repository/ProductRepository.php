@@ -37,4 +37,10 @@ class ProductRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
+    public function loadData($data)
+    {
+        $product = new Product();
+        return $product->loadData($data);
+    }
+
 }

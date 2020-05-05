@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\DataLoader;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,6 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Product
 {
     use TimestampableEntity;
+    use DataLoader;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -80,6 +83,7 @@ class Product
 
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2)
+     * @Assert\Type(type="numeric", message="Prix d'achat doit être supérieure de 0")
      * @Assert\NotBlank(
      *      message = "Prix d'achat est invalide",
      * )
@@ -89,31 +93,28 @@ class Product
 
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2)
-     * @Assert\NotBlank(
-     *      message = "Prix de vente est invalide",
-     * )
+     * @Assert\Type(type="numeric", message="Prix de vente doit être supérieure de 0")
      * @Groups({"public", "allowPosted"})
      */
     private $sellPrice;
 
     /**
-     * @ORM\Column(name="minimum_sales_quantity", type="digit", nullable=true)
+     * @ORM\Column(name="minimum_sales_quantity", type="integer", nullable=true)
      * @Assert\Positive(message = "quantité minimale de vente est invalide")
      * @Groups({"public", "allowPosted"})
      */
     private $minimumSalesQuantity;
 
     /**
-     * @ORM\Column(name="maximum_sales_quantity", type="digit", nullable=true)
+     * @ORM\Column(name="maximum_sales_quantity", type="integer", nullable=true)
      * @Assert\Positive(message = "quantité maximale de vente est invalide")
      * @Groups({"public", "allowPosted"})
      */
     private $maximumSalesQuantity;
 
     /**
-     * @ORM\Column(type="digit", nullable=true)
+     * @ORM\Column(type="integer")
      * @Assert\Type(type="numeric", message="Quantité invalide.")
-     * @Assert\Positive(message = "Quantité doit être supérieure de 0")
      * @Assert\NotBlank(
      *      message = "Quantité ne doit pas être vide",
      * )
@@ -122,20 +123,23 @@ class Product
     private $quantity;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Variation", mappedBy="product", orphanRemoval=true)
-     * @Groups({"variations", "allowPosted"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Variation", mappedBy="product", orphanRemoval=true, cascade={"all"})
+     * @Groups({"variations", "public", "allowPosted"})
      */
     private $variations;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"public"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="product")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"allowPosted"})
+     * @Groups({"public"})
      */
     private $category;
 
@@ -143,6 +147,7 @@ class Product
     public function __construct()
     {
         $this->variations = new ArrayCollection();
+        $this->category = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -234,12 +239,12 @@ class Product
         return $this;
     }
 
-    public function getCategory(): ?Category
+    public function getCategory()
     {
         return $this->category;
     }
 
-    public function setCategory(?Category $category): self
+    public function setCategory($category): self
     {
         $this->category = $category;
         return $this;
