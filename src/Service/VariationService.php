@@ -3,7 +3,9 @@
 namespace App\Service;
 
 
+use App\Entity\Product;
 use App\Repository\VariationRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class VariationService extends AbstractService{
@@ -19,15 +21,21 @@ class VariationService extends AbstractService{
     protected $validator;
 
     /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
      * VariationService constructor.
      *
      * @param VariationRepository $variationRepository
      * @param ValidatorInterface $validator
      */
-    public function __construct(VariationRepository $variationRepository, ValidatorInterface $validator)
+    public function __construct(VariationRepository $variationRepository, ValidatorInterface $validator, EntityManagerInterface $em)
     {
         $this->validator = $validator;
         $this->variationRepository = $variationRepository;
+        $this->em = $em;
     }
 
     /**
@@ -46,6 +54,33 @@ class VariationService extends AbstractService{
             }
 
             empty(array_filter($validation['variations'])) ?: $errors = array_merge($errors ,$validation);
+        }
+    }
+
+    /**
+     * @param Product $product
+     * @param         $entities
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function saveVariations(Product $product, $entities)
+    {
+        $variations = $this->variationRepository->findBy(["product" => $product->getId()]);
+        if($variations){
+            foreach ($variations as $variation) {
+                $this->em->remove($variation);
+            }
+
+            $this->em->flush();
+        }
+
+        if (isset($entities['variations'])) {
+            foreach ($entities['variations'] as $variation) {
+                $product->addVariation($variation);
+                $this->em->persist($product);
+            }
+
+            $this->em->flush();
         }
     }
 }
