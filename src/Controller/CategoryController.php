@@ -78,7 +78,7 @@ class CategoryController extends BaseController
      * @Rest\Get("/category/{categoryId}", name="get_category")
      * @param int      $categoryId
      * @return View
-     * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
+     * @Rest\View(serializerGroups={"public", "subCategories"}, StatusCode = 200)
      */
     public function showCategory(int $categoryId) : View
     {
@@ -88,7 +88,7 @@ class CategoryController extends BaseController
     /**
      * @Rest\Get("/category", name="get_categories")
      * @return View
-     * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
+     * @Rest\View(serializerGroups={"public", "subCategories"}, StatusCode = 200)
      */
     public function showCategories() : View
     {

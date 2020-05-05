@@ -60,7 +60,7 @@ class Category
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="parent", orphanRemoval=true)
-     * @Groups({"public"})
+     * @Groups({"subCategories"})
      */
     private $subCategories;
 
