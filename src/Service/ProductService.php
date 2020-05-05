@@ -4,7 +4,6 @@
 namespace App\Service;
 
 
-use App\Entity\Product;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Component\Security\Core\Security;
@@ -13,7 +12,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProductService extends AbstractService
 {
-
     /**
      * @var Security
      */
@@ -64,24 +62,11 @@ class ProductService extends AbstractService
     /**
      * @param array $data
      * @return mixed
-     */
-    public function createProduct(array $data)
-    {
-        $entities = [];
-
-        $this->validateProductAndRelatedResources($data, $entities);
-        return $this->saveProductAndRelatedResources($entities);
-    }
-
-    /**
-     * @param Product $product
-     * @param array   $data
-     * @return mixed
      * @throws \App\Response\ApiResponseException
      */
-    public function updateProduct(Product $product, array $data)
+    public function saveProduct(array $data)
     {
-        $entities['oldProduct'] = $product;
+        $entities = [];
 
         $this->validateProductAndRelatedResources($data, $entities);
         return $this->saveProductAndRelatedResources($entities);
@@ -115,7 +100,7 @@ class ProductService extends AbstractService
      */
     private function validateProduct($data, &$entities, &$errors)
     {
-        $productEntity = $this->productRepository->loadData($data, $entities);
+        $productEntity = $this->productRepository->loadData($data);
         $productValidation = $this->getMessagesAndViolations($this->validator->validate($productEntity));
 
         if( !empty($productValidation) ) {

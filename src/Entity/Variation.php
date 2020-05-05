@@ -31,14 +31,14 @@ class Variation
     private $value;
 
     /**
-     * @ORM\Column(type="decimal", precision=5, scale=2)
+     * @ORM\Column(type="decimal", precision=9, scale=2)
      * @Assert\Positive(message = "Prix d'achat est invalide")
      * @Groups({"public", "allowPosted"})
      */
     private $basePrice;
 
     /**
-     * @ORM\Column(type="decimal", precision=5, scale=2)
+     * @ORM\Column(type="decimal", precision=9, scale=2)
      * @Assert\Positive( message="Prix de vente est invalide")
      * @Groups({"public", "allowPosted"})
      */

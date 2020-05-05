@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -37,10 +38,12 @@ class ProductRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-    public function loadData($data, $entities)
+    public function loadData($data)
     {
-        if( $entities['oldProduct'] instanceof Product){
-            $product = $this->findOneBy(array("id" => $entities['oldProduct']->getId()));
+        if( isset($data['updateId']) && is_numeric($data['updateId'])){
+            if(!$product = $this->findOneBy( array("id" => $data['updateId']) )){
+                throw new NotFoundHttpException("Product Id does not exist");
+            }
         } else {
             $product = new Product();
         }

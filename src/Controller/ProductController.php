@@ -45,22 +45,22 @@ class ProductController extends BaseController
      */
     public function postProduct(Request $request): View
     {
-        return $this->view($this->productService->createProduct($request->request->all()));
+        return $this->view($this->productService->saveProduct($request->request->all()), Response::HTTP_CREATED);
     }
 
     /**
      * @Rest\Put("/product/{id}", name="put_product")
      * @param Request  $request
-     * @param Product $product
+     * @param int $id
      * @return View
-     *
      * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
      */
-    public function putProduct(Request $request, Product $product): View
+    public function putProduct(Request $request, int $id): View
     {
         $data = $request->request->all();
-        //$data['updatedCategory'] =
-        return $this->view($this->productService->updateProduct($product, $data), Response::HTTP_OK);
+        $data['updateId'] = $id;
+
+        return $this->view($this->productService->saveProduct($data), Response::HTTP_OK);
     }
 
     /**

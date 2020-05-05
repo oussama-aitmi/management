@@ -82,7 +82,7 @@ class Product
     private $statusSiteWeb;
 
     /**
-     * @ORM\Column(type="decimal", precision=5, scale=2)
+     * @ORM\Column(type="decimal", precision=9, scale=2)
      * @Assert\Type(type="numeric", message="Prix d'achat doit être supérieure de 0")
      * @Assert\NotBlank(
      *      message = "Prix d'achat est invalide",
@@ -92,7 +92,7 @@ class Product
     private $basePrice;
 
     /**
-     * @ORM\Column(type="decimal", precision=5, scale=2)
+     * @ORM\Column(type="decimal", precision=9, scale=2)
      * @Assert\Type(type="numeric", message="Prix de vente doit être supérieure de 0")
      * @Groups({"public", "allowPosted"})
      */
@@ -237,12 +237,6 @@ class Product
     public function getSlug(): ?string
     {
         return $this->slug;
-    }
-
-    public function setSlug(?string $slug): self
-    {
-        $this->slug = $slug;
-        return $this;
     }
 
     public function getCategory()
