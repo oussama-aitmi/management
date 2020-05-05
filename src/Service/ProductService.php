@@ -5,11 +5,8 @@ namespace App\Service;
 
 
 use App\Entity\Product;
-use App\Entity\Variation;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -41,10 +38,6 @@ class ProductService extends AbstractService
      * @var CategoryRepository
      */
     private $categoryRepository;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
 
     /**
      * ProductService constructor.
@@ -58,15 +51,14 @@ class ProductService extends AbstractService
         ProductRepository $productRepository,
         ValidatorInterface $validator,
         CategoryRepository $categoryRepository,
-        VariationService $variationService,
-        EntityManagerInterface $em)
+        VariationService $variationService
+        )
     {
         $this->security = $security;
         $this->validator = $validator;
         $this->variationService = $variationService;
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
-        $this->em = $em;
     }
 
     /**
@@ -78,9 +70,23 @@ class ProductService extends AbstractService
         $entities = [];
 
         $this->validateProductAndRelatedResources($data, $entities);
-        return $this->saveProductAndDataRelatedResources($entities);
+        return $this->saveProductAndRelatedResources($entities);
     }
-    
+
+    /**
+     * @param Product $product
+     * @param array   $data
+     * @return mixed
+     * @throws \App\Response\ApiResponseException
+     */
+    public function updateProduct(Product $product, array $data)
+    {
+        $entities['oldProduct'] = $product;
+
+        $this->validateProductAndRelatedResources($data, $entities);
+        return $this->saveProductAndRelatedResources($entities);
+    }
+
     /**
      * @param $data
      * @param $entities
@@ -92,7 +98,6 @@ class ProductService extends AbstractService
 
         $this->validateProduct($data, $entities, $errors);
         $this->variationService->validateVariations($data, $entities, $errors);
-
         /*
          * Next Validations for Files and Tags
          */
@@ -110,7 +115,7 @@ class ProductService extends AbstractService
      */
     private function validateProduct($data, &$entities, &$errors)
     {
-        $productEntity = $this->productRepository->loadData($data);
+        $productEntity = $this->productRepository->loadData($data, $entities);
         $productValidation = $this->getMessagesAndViolations($this->validator->validate($productEntity));
 
         if( !empty($productValidation) ) {
@@ -120,12 +125,12 @@ class ProductService extends AbstractService
         $entities['product'] = $productEntity;
     }
 
-    private function saveProductAndDataRelatedResources($entities)
+    private function saveProductAndRelatedResources($entities)
     {
         $user = $this->security->getUser();
         $product = $entities['product'];
 
-        if(!$category = $this->categoryRepository->findOneBy(array('id'=> $product->getCategory(),'user' =>$user))){
+        if(!$category = $this->categoryRepository->findOneBy(['id'=> $product->getCategory(),'user' =>$user])){
             $this->renderFailureResponse(['The Category does not exist']);
         }
 
@@ -133,47 +138,10 @@ class ProductService extends AbstractService
         $product->setUser($this->security->getUser());
 
         $this->productRepository->save($product);
-        $this->saveRelatedResources($product, $entities);
+        $this->variationService->saveVariations($product, $entities);
 
         return $product;
     }
-
-    /**
-     * @param Product $product
-     * @param         $entities
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    private function saveRelatedResources(Product $product, $entities)
-    {
-        if (isset($entities['variations'])) {
-            $variations = $this->variationService->variationRepository->findBy(["product" => $product->getId()]);
-
-            if($variations instanceof Variation){
-                foreach ($variations as $variation) {
-                    $this->em->remove($variation);
-                }
-
-                $this->em->flush();
-            }
-
-            foreach ($entities['variations'] as $variation) {
-                $product->addVariation($variation);
-                $this->em->persist($product);
-            }
-
-            $this->em->flush();
-        }
-    }
-
-
-    public function updateProduct($product, array $data)
-    {
-        return $product;
-    }
-
-
-
 
     public function getProduct(int $productId)
     {

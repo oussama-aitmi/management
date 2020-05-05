@@ -59,11 +59,7 @@ class ProductController extends BaseController
     public function putProduct(Request $request, Product $product): View
     {
         $data = $request->request->all();
-
-        $product = $this->deserialize($request, Product::class,
-            ['object_to_populate' => $product, 'groups' => 'allowPosted']
-        );
-
+        //$data['updatedCategory'] =
         return $this->view($this->productService->updateProduct($product, $data), Response::HTTP_OK);
     }
 

@@ -37,9 +37,14 @@ class ProductRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-    public function loadData($data)
+    public function loadData($data, $entities)
     {
-        $product = new Product();
+        if( $entities['oldProduct'] instanceof Product){
+            $product = $this->findOneBy(array("id" => $entities['oldProduct']->getId()));
+        } else {
+            $product = new Product();
+        }
+
         return $product->loadData($data);
     }
 
