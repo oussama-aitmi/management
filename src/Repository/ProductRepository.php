@@ -38,14 +38,19 @@ class ProductRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-    public function loadData($data)
+    public function loadData($data, $user)
     {
-        if( isset($data['updateId']) && is_numeric($data['updateId'])){
-            if(!$product = $this->findOneBy( array("id" => $data['updateId']) )){
-                throw new NotFoundHttpException("Product Id does not exist");
+        if( isset($data['updateId'])){
+            $updateId = $data['updateId'];
+            if(empty($updateId) || !is_numeric($updateId) || !$product = $this->findOneBy(array("id" => $updateId))){
+                throw new NotFoundHttpException("Error loading product Id !");
             }
         } else {
             $product = new Product();
+            /*
+             * Update case we keep the product's owner if the Admin updating
+             */
+            $product->setUser($user);
         }
 
         return $product->loadData($data);

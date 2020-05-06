@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Entity\Product;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Component\Security\Core\Security;
@@ -100,7 +101,7 @@ class ProductService extends AbstractService
      */
     private function validateProduct($data, &$entities, &$errors)
     {
-        $productEntity = $this->productRepository->loadData($data);
+        $productEntity = $this->productRepository->loadData($data, $this->security->getUser());
         $productValidation = $this->getMessagesAndViolations($this->validator->validate($productEntity));
 
         if( !empty($productValidation) ) {
@@ -112,15 +113,15 @@ class ProductService extends AbstractService
 
     private function saveProductAndRelatedResources($entities)
     {
-        $user = $this->security->getUser();
         $product = $entities['product'];
 
-        if(!$category = $this->categoryRepository->findOneBy(['id'=> $product->getCategory(),'user' =>$user])){
+        if(!$category = $this->categoryRepository->findOneBy(
+            ['id'=> $product->getCategory(),'user' =>$this->security->getUser()])
+        ){
             $this->renderFailureResponse(['The Category does not exist']);
         }
 
         $product->setCategory($category);
-        $product->setUser($this->security->getUser());
 
         $this->productRepository->save($product);
         $this->variationService->saveVariations($product, $entities);
