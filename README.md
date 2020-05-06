@@ -2,8 +2,8 @@
 
 
 <h4>Prerequisites</h4>
-What things you need to install the software and how to install them.
-<br/>
+<p>What things you need to install the software and how to install them.</p>
+
 <ul>
 <li>PHP 7.2.0</li>
 <li>composer</li>
