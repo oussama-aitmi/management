@@ -1,7 +1,27 @@
-# Installation
-To install the application dependencies, run the command below:
+# Getting Started
 
-<pre>composer install</pre>
+
+<h4>Prerequisites</h4>
+What things you need to install the software and how to install them.
+<br/>
+<ul>
+<li>PHP 7.2.0</li>
+<li>composer</li>
+<li>symfony</li>
+</ul>
+
+
+# Installation
+Run the command below:
+
+<pre>
+git clone https://github.com/oussama-aitmi/management
+cd management
+cp .env.dist .env
+## edit .env if needed
+composer install
+symfony server:start
+</pre>
 
 To initialize the database, set the DATABASE_URL variable in the .env file with your database server URL, then run the following commands:
 
