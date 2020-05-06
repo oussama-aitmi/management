@@ -11,7 +11,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("api", name="api_")
@@ -42,6 +42,8 @@ class ProductController extends BaseController
      * @throws \App\Response\ApiResponseException
      *
      * @Rest\View(serializerGroups={"public"}, serializerEnableMaxDepthChecks=1, StatusCode = 201)
+     *
+     * @IsGranted("ROLE_MANAGE")
      */
     public function postProduct(Request $request): View
     {
@@ -50,15 +52,19 @@ class ProductController extends BaseController
 
     /**
      * @Rest\Put("/product/{id}", name="put_product")
-     * @param Request  $request
-     * @param int $id
+     * @param Request $request
+     * @param Product $product
+     * @param int     $id
      * @return View
+     * @throws \App\Response\ApiResponseException
      * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
+     *
+     * @IsGranted("PRODUCT_MANAGE", subject="product")
      */
-    public function putProduct(Request $request, int $id): View
+    public function putProduct(Request $request, Product $product, $id): View
     {
         $data = $request->request->all();
-        $data['updateId'] = $id;
+        $data['updateId'] = $id;//dd($data);
 
         return $this->view($this->productService->saveProduct($data), Response::HTTP_OK);
     }

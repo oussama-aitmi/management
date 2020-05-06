@@ -42,6 +42,11 @@ security:
         main:
             anonymous: true
 
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_MANAGE]
+        ROLE_EDITOR : [PRODUCT_MANAGE, COMMAND_MANAGE]
+        ROLE_USER: [PRODUCT_VIEW,COMMAND_VIEW]
+
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
