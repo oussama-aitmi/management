@@ -37,6 +37,32 @@ php bin/console doctrine:fixtures:load
 
 # Example conecting to Api and Consuming Resources via RESTful API
 
+<h3>Register to Api</h3>
+
+<pre>
+{
+  "email":"email", 
+  "firstName":"name ",  
+  "password": "password",
+  "confirm_password": "password" 
+  }
+</pre>
+
+<h4>output format with HTTP Response Code: 201</h4>
+
+<pre>
+
+    HTTP/1.1 201
+    Content-Type: application/json
+
+{
+    "id": 1,
+    "email": "email",
+    "firstName": "name"
+}
+</pre>
+
+
 <h3>Conecting to Api</h3>
 
 <pre>
@@ -46,9 +72,12 @@ php bin/console doctrine:fixtures:load
 }
 </pre>
 
-<h4>Output format is an Access Token valid for 86400 seconds (24 hours).</h4>
+<h4>Output format is an Access Token valid for 86400 seconds (24 hours). - HTTP Response Code: 200</h4>
 
 <pre>
+    HTTP/1.1 200
+    Content-Type: application/json
+
 {
   "token":"token", 
   "user" :{
@@ -58,19 +87,8 @@ php bin/console doctrine:fixtures:load
 }
 </pre>
 
-<h3>Register to Api</h3>
 
-<pre>
-{
-  "email":"email", 
-  "firstName":"Oussamaé ",  
-  "password": "password",
-  "confirm_password": "password" 
-  }
-</pre>
-
-
-Sending a POST request on /category with the following body:
+Sending a POST request to create category with the following body:
 
 <pre>
 {
