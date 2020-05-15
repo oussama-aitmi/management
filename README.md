@@ -48,7 +48,7 @@ php bin/console doctrine:fixtures:load
   }
 </pre>
 
-<h4>output format with HTTP Response Code: 201</h4>
+<h5>Output format with HTTP Response Code: 201</h5>
 
 <pre>
 
@@ -72,7 +72,7 @@ php bin/console doctrine:fixtures:load
 }
 </pre>
 
-<h4>Output format is an Access Token valid for 86400 seconds (24 hours). - HTTP Response Code: 200</h4>
+<h5>Output format is an Access Token valid for 86400 seconds (24 hours). - HTTP Response Code: 200</h5>
 
 <pre>
     HTTP/1.1 200
@@ -88,13 +88,5 @@ php bin/console doctrine:fixtures:load
 </pre>
 
 
-Sending a POST request to create category with the following body:
-
-<pre>
-{
-  "title": "name category",
-  "parent": "12" (parent id if exist)
-}
-</pre>
-
+...
 
