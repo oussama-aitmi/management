@@ -42,7 +42,7 @@ php bin/console doctrine:fixtures:load
 <pre>
 {
   "email":"email", 
-  "firstName":"name ",  
+  "firstName":"firstName",  
   "password": "password",
   "confirm_password": "password" 
   }
@@ -56,12 +56,14 @@ php bin/console doctrine:fixtures:load
     Content-Type: application/json
 
 {
-    "id": 1,
-    "email": "email",
-    "firstName": "name"
+    "token": "token",
+    "user": {
+        "id": 1,
+        "firstName": "firstName",
+        "email": "email"
+    }
 }
 </pre>
-
 
 <h3>Conecting to Api</h3>
 
