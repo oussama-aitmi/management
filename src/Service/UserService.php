@@ -5,6 +5,7 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -26,6 +27,11 @@ class UserService extends AbstractService{
     protected $validator;
 
     /**
+     * @var JWTTokenManagerInterface
+     */
+    private  $JWTTokenManager;
+
+    /**
      * AuthService constructor.
      *
      * @param UserRepository               $userRepository
@@ -35,11 +41,13 @@ class UserService extends AbstractService{
     public function __construct(
         UserRepository $userRepository,
         ValidatorInterface $validator,
-        UserPasswordEncoderInterface $encoder
+        UserPasswordEncoderInterface $encoder,
+        JWTTokenManagerInterface $JWTTokenManager
     ){
         $this->validator = $validator;
         $this->encoder = $encoder;
         $this->userRepository = $userRepository;
+        $this->JWTTokenManager = $JWTTokenManager;
     }
 
     /**
@@ -48,14 +56,16 @@ class UserService extends AbstractService{
     public function register(User $user)
     {
         if (\count($errors = $this->validator->validate($user))) {
-            $this->renderFailureResponse($this->normalizeViolations($errors));
+            $this->renderFailureResponse($this->getMessagesAndViolations($errors));
         }
 
         $user->setPassword($this->encoder->encodePassword($user, $user->getPassword()));
-
         $this->userRepository->save($user);
 
-        return $user;
+        return [
+            'token' => $this->JWTTokenManager->create($user),
+            'user' => $user
+        ];
     }
 
     /**

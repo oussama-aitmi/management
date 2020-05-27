@@ -62,6 +62,9 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(
+     *      message = "Status ne doit pas être vide",
+     * )
      * @Assert\Choice(
      *     choices = {"DRAFT", "PUBLISHED", "DELETED"},
      *     message = "Status est invalide",

@@ -65,8 +65,13 @@ class VariationService extends AbstractService{
      */
     public function saveVariations(Product $product, $entities)
     {
+        if (!isset($entities['variations'])) {
+            return;
+        }
+
         $variations = $this->variationRepository->findBy(["product" => $product->getId()]);
-        if($variations){
+
+        if ($variations) {
             foreach ($variations as $variation) {
                 $this->em->remove($variation);
             }
@@ -74,13 +79,15 @@ class VariationService extends AbstractService{
             $this->em->flush();
         }
 
-        if (isset($entities['variations'])) {
-            foreach ($entities['variations'] as $variation) {
-                $product->addVariation($variation);
-                $this->em->persist($product);
-            }
-
-            $this->em->flush();
+        if (empty($entities['variations'])) {
+            return;
         }
+
+        foreach ($entities['variations'] as $variation) {
+            $product->addVariation($variation);
+            $this->em->persist($product);
+        }
+
+        $this->em->flush();
     }
 }

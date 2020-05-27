@@ -3,8 +3,6 @@
 
 namespace App\Service;
 
-
-use App\Entity\Product;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Component\Security\Core\Security;
@@ -89,8 +87,7 @@ class ProductService extends AbstractService
          */
 
         if ( \count( $errors ) ) {
-            $dataError['form'] = $errors;
-            $this->renderFailureResponse($dataError);
+            $this->renderFailureResponse($errors);
         }
     }
 
@@ -105,7 +102,7 @@ class ProductService extends AbstractService
         $productValidation = $this->getMessagesAndViolations($this->validator->validate($productEntity));
 
         if( !empty($productValidation) ) {
-            $errors['product'] = $productValidation;
+            $errors = $productValidation;
         }
 
         $entities['product'] = $productEntity;
@@ -122,7 +119,6 @@ class ProductService extends AbstractService
         }
 
         $product->setCategory($category);
-
         $this->productRepository->save($product);
         $this->variationService->saveVariations($product, $entities);
 

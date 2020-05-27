@@ -6,12 +6,10 @@ use App\Traits\ApiResponseTrait;
 
 abstract class AbstractService
 {
-
     /**
      * Using Service trait Response methods
      */
     use ApiResponseTrait;
-
 
     /**
      * @param  $violations
@@ -22,10 +20,10 @@ abstract class AbstractService
     public function normalizeViolations($violations, $format = null)
     {
         //[$messages, $violations] = $this->getMessagesAndViolations($object);
-
+        //dd($violations);
         return [
             //'message' => $messages ? implode("\n", $messages) : 'Une erreur est survenue',
-            'form' => $violations,
+            'form2222' => $violations,
         ];
     }
 
@@ -39,16 +37,20 @@ abstract class AbstractService
 
         foreach ($constraintViolationList as $violation) {
             $violations[] = [
-                'propertyPath' => $violation->getPropertyPath(),
-                'message' => $violation->getMessage(),
+                $violation->getPropertyPath() => $violation->getMessage() ,
             ];
 
             $propertyPath = $violation->getPropertyPath();
-            $messages[] = ($propertyPath ? $propertyPath.': ' : '').$violation->getMessage();
+            //$messages[] = ($propertyPath ? $propertyPath.': ' : '').$violation->getMessage();
+            $messages[] = $violation->getMessage();
+
         }
 
-        return $violations;
-        //return [$messages, $violations];
+        return array_filter([
+            'message' => $messages ?: implode("\n ", $messages),
+            'detail' => $violations,
+        ]);
+
     }
 
 }

@@ -26,9 +26,22 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="Veuillez saisir votre Prénom")
+     * @Groups({"public", "userCreate"})
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"public", "userCreate"})
+     */
+    private $lastName;
+
+    /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank(message="Please enter an email")
-     * @Assert\Email(message="email format incorrect")
+     * @Assert\Email(message="Email format est incorrect")
      * @Groups({"public", "userCreate", "userChangeEmail"})
      */
     private $email;
@@ -41,29 +54,21 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="Please enter password")
+     * @Assert\NotBlank(message="Mot de passe n'est pas valide")
      * @Groups({ "userCreate", "userChangePassword"})
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 50,
+     *      minMessage = "Mot de passe doit contenir au moins 6 cacactères",
+     * )
      */
     private $password;
 
     /**
-     * @Assert\EqualTo(propertyPath="password", message="Do not match password")
+     * @Assert\EqualTo(propertyPath="password", message="Mots de passe saisis ne sont pas identiques")
      * @Groups({"userCreate"})
      */
     private $confirm_password;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"public", "userCreate"})
-     */
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Please enter last Name")
-     * @Groups({"public", "userCreate"})
-     */
-    private $lastName;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="user", orphanRemoval=true)

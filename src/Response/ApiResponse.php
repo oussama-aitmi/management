@@ -41,14 +41,21 @@ class ApiResponse
      */
     public function toArray(): array
     {
-        return array_merge(
-            array(
-                'status' =>  "fail",
-                'code' => $this->statusCode,
-                'title' => $this->title
-            ),
+        $error = [
+            'status' => $this->statusCode,
+            'title' => $this->title
+        ];
 
-            ['error' => $this->extraData['response']]
+        if(is_string($this->extraData['response'])){
+            return $error['errors'] = array_merge(
+                $error,
+                ['message' =>$this->extraData['response']]
+            );
+        }
+
+         return $error['errors'] = array_merge(
+            $error,
+            $this->extraData['response']
         );
     }
 

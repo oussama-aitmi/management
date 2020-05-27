@@ -3,7 +3,6 @@
 
 namespace App\EventSubscriber;
 
-
 use App\Response\ApiResponseException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,7 +13,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ResponseSubscriber implements EventSubscriberInterface
 {
-
     public function onKernelException(ExceptionEvent $event)
     {
 
@@ -23,7 +21,6 @@ class ResponseSubscriber implements EventSubscriberInterface
         }
 
         $response = new JsonResponse($event->getThrowable()->getApiResponse()->toArray());
-        //dd($response);
         $response->setStatusCode($event->getThrowable()->getCode());
         $event->setResponse($response);
     }
@@ -31,7 +28,7 @@ class ResponseSubscriber implements EventSubscriberInterface
     public function onKernelResponse(ResponseEvent $event)
     {
         if ( !in_array($event->getResponse()->getStatusCode(), ['200', '201', '202'])) {
-            return;
+            return false;
         }
 
         $content = $this->NormalizeFormat(
@@ -53,19 +50,19 @@ class ResponseSubscriber implements EventSubscriberInterface
      */
     private function NormalizeFormat($response, $code = Response::HTTP_OK)
     {
-        return
-            array(
-                'status' => 'success',
-                'code'=> $code,
-                'title' => Response::$statusTexts[$code],
-                'data'=> json_decode( $response, true)
-            );
+        array(
+            'status' => 'success',
+            'code'=> $code,
+            'title' => Response::$statusTexts[$code],
+            'data'=> json_decode( $response, true)
+        );
     }
 
     public static function getSubscribedEvents()
     {
+
         return [
-            KernelEvents::RESPONSE => ['onKernelResponse'],
+            //KernelEvents::RESPONSE => ['onKernelResponse'],
             KernelEvents::EXCEPTION => ['onKernelException']
         ];
     }
