@@ -17,10 +17,8 @@ Run the command below:
 <pre>
 git clone https://github.com/oussama-aitmi/management
 cd management
-cp .env.dist .env
-## edit .env if needed
 composer install
-symfony server:start
+php -S localhost:8000 -t public or (symfony server:start)
 </pre>
 
 To initialize the database, set the DATABASE_URL variable in the .env file with your database server URL, then run the following commands:
@@ -39,12 +37,58 @@ php bin/console doctrine:fixtures:load
 
 # Example conecting to Api and Consuming Resources via RESTful API
 
-Sending a POST request on /category with the following body:
+<h3>Register to Api</h3>
 
 <pre>
 {
-  "title": "name category",
-  "parent": "12" (parent id if exist)
+  "email":"email", 
+  "firstName":"firstName",  
+  "password": "password",
+  "confirm_password": "password" 
+  }
+</pre>
+
+<h5>Output format with HTTP Response Code: 201</h5>
+
+<pre>
+
+    HTTP/1.1 201
+    Content-Type: application/json
+
+{
+    "token": "token",
+    "user": {
+        "id": 1,
+        "firstName": "firstName",
+        "email": "email"
+    }
 }
 </pre>
+
+<h3>Conecting to Api</h3>
+
+<pre>
+{
+  "email":"convoi1@management.com", 
+  "password": "management"
+}
+</pre>
+
+<h5>Output format is an Access Token valid for 86400 seconds (24 hours). - HTTP Response Code: 200</h5>
+
+<pre>
+    HTTP/1.1 200
+    Content-Type: application/json
+
+{
+  "token":"token", 
+  "user" :{
+    "name": "name",
+    "email": "email"
+  }
+}
+</pre>
+
+
+...
 
