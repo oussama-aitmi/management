@@ -12,6 +12,7 @@
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/packages/lexik_jwt_authentication.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/lexik_jwt_authentication.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/public/.htaccess" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Product.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
@@ -289,10 +290,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="308" y="192" key="IDE.errors.dialog/0.0.1440.900@0.0.1440.900" timestamp="1590537634612" />
-    <state x="451" y="183" key="NewPhpClassDialog" timestamp="1588353157073">
+    <state x="451" y="183" key="NewPhpClassDialog" timestamp="1590554946269">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="451" y="183" key="NewPhpClassDialog/0.0.1440.900@0.0.1440.900" timestamp="1588353157073" />
+    <state x="451" y="183" key="NewPhpClassDialog/0.0.1440.900@0.0.1440.900" timestamp="1590554946269" />
     <state x="541" y="380" key="NewPhpFileDialog" timestamp="1589080490280">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -305,14 +306,14 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="469" y="147" key="com.jetbrains.php.test.PhpNewTestDialog/0.0.1440.900@0.0.1440.900" timestamp="1587600367795" />
-    <state x="240" y="97" width="994" height="670" key="find.popup" timestamp="1589815571564">
+    <state x="240" y="97" width="994" height="670" key="find.popup" timestamp="1590557201947">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="240" y="97" width="994" height="670" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1589815571564" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1590360251224">
+    <state x="240" y="97" width="994" height="670" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1590557201947" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1590555113730">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1590360251224" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1590555113730" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.23.1440.877@0.23.1440.877" timestamp="1589433798770" />
   </component>
 </project>
