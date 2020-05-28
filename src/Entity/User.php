@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use DMS\Filter\Rules as Filter;
 
 
 /**
@@ -29,12 +30,20 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="Veuillez saisir votre Prénom")
      * @Groups({"public", "userCreate"})
+     *
+     * @Filter\StripTags()
+     * @Filter\Trim()
+     * @Filter\StripNewlines()
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"public", "userCreate"})
+     *
+     * @Filter\StripTags()
+     * @Filter\Trim()
+     * @Filter\StripNewlines()
      */
     private $lastName;
 

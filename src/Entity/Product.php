@@ -11,6 +11,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use DMS\Filter\Rules as Filter;
 
 
 /**
@@ -35,6 +36,10 @@ class Product
      *      message = "Désignation est invalide",
      * )
      * @Groups({"public", "allowPosted"})
+     *
+     * @Filter\StripTags()
+     * @Filter\Trim()
+     * @Filter\StripNewlines()
      */
     private $name;
 
