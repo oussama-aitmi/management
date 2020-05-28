@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "aad32850c5ee801da3a52f82f04a1266",
+    "content-hash": "a4161cfcaf342e6f07c80f6bbc2cb7d5",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -50,6 +50,109 @@
                 "transliterator"
             ],
             "time": "2020-01-14T16:39:13+00:00"
+        },
+        {
+            "name": "dms/dms-filter",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rdohms/dms-filter.git",
+                "reference": "3eb0942a68fa023e0d7378fa825447e7a47219b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rdohms/dms-filter/zipball/3eb0942a68fa023e0d7378fa825447e7a47219b1",
+                "reference": "3eb0942a68fa023e0d7378fa825447e7a47219b1",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "~1.1",
+                "php": "^5.3.2 || ^7.0"
+            },
+            "require-dev": {
+                "doctrine/cache": "~1.3",
+                "phpunit/phpunit": "~3.7",
+                "zendframework/zend-filter": "^2.0.3"
+            },
+            "suggest": {
+                "zendframework/zend-filter": "Use Zend Filters via DMS Filter"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "DMS": [
+                        "src",
+                        "tests"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rafael Dohms",
+                    "homepage": "http://doh.ms"
+                }
+            ],
+            "description": "DMS Filter provides Annotation based entity filtering.",
+            "homepage": "https://github.com/rdohms/dms-filter",
+            "keywords": [
+                "dms",
+                "filter"
+            ],
+            "time": "2016-03-01T09:56:31+00:00"
+        },
+        {
+            "name": "dms/dms-filter-bundle",
+            "version": "v4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rdohms/dms-filter-bundle.git",
+                "reference": "25ff741f3339a41bec7c170a4f0d086a05960b90"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rdohms/dms-filter-bundle/zipball/25ff741f3339a41bec7c170a4f0d086a05960b90",
+                "reference": "25ff741f3339a41bec7c170a4f0d086a05960b90",
+                "shasum": ""
+            },
+            "require": {
+                "dms/dms-filter": "^2.0 | ^3.0",
+                "php": "^7.1.13",
+                "symfony/form": "^3.4 | ^4.0",
+                "symfony/framework-bundle": "^3.4 | ^4.0",
+                "symfony/yaml": "^3.4 | ^4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "DMS\\Bundle\\FilterBundle\\": "./src/DMS/Bundle/FilterBundle"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rafael Dohms",
+                    "homepage": "http://doh.ms"
+                }
+            ],
+            "description": "DMS Filter Bundle, makes Annotation based entity filtering available in Symfony",
+            "homepage": "https://github.com/rdohms/dms-filter-bundle",
+            "keywords": [
+                "bundle",
+                "dms",
+                "filter",
+                "symfony"
+            ],
+            "time": "2018-08-07T19:47:16+00:00"
         },
         {
             "name": "doctrine/annotations",
