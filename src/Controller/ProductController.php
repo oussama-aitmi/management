@@ -47,7 +47,10 @@ class ProductController extends BaseController
      */
     public function postProduct(Request $request): View
     {
-        return $this->view($this->productService->saveProduct($request->request->all()), Response::HTTP_CREATED);
+        return $this->view($this->productService->saveProduct(
+            $request->request->all(),
+            $request->files->all()
+        ), Response::HTTP_CREATED);
     }
 
     /**
@@ -64,9 +67,9 @@ class ProductController extends BaseController
     public function putProduct(Request $request, Product $product, $id): View
     {
         $data = $request->request->all();
-        $data['updateId'] = $id;//dd($data);
+        $data['updateId'] = $id;
 
-        return $this->view($this->productService->saveProduct($data), Response::HTTP_OK);
+        return $this->view($this->productService->saveProduct($data, $request->files->all()), Response::HTTP_OK);
     }
 
     /**

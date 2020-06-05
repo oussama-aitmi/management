@@ -28,7 +28,7 @@ class Product
      * @ORM\Column(type="integer")
      * @Groups({"public", "allowPosted"})
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=150)
@@ -152,11 +152,17 @@ class Product
      */
     private $category;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MediaProduct", mappedBy="product", cascade={"persist"})
+     */
+    private $mediaProducts;
+
 
     public function __construct()
     {
         $this->variations = new ArrayCollection();
         $this->category = new ArrayCollection();
+        $this->mediaProducts = new ArrayCollection();
     }
 
     public function setId($id): self
@@ -389,6 +395,37 @@ class Product
     public function setQuantity( $quantity): self
     {
         $this->quantity = !empty($quantity) ? $quantity : 0;
+        return $this;
+    }
+
+    /**
+     * @return Collection|MediaProduct[]
+     */
+    public function getMediaProducts(): Collection
+    {
+        return $this->mediaProducts;
+    }
+
+    public function addMediaProduct(MediaProduct $mediaProduct): self
+    {
+        if (!$this->mediaProducts->contains($mediaProduct)) {
+            $this->mediaProducts[] = $mediaProduct;
+            $mediaProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaProduct(MediaProduct $mediaProduct): self
+    {
+        if ($this->mediaProducts->contains($mediaProduct)) {
+            $this->mediaProducts->removeElement($mediaProduct);
+            // set the owning side to null (unless already changed)
+            if ($mediaProduct->getProduct() === $this) {
+                $mediaProduct->setProduct(null);
+            }
+        }
+
         return $this;
     }
 }

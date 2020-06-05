@@ -37,6 +37,11 @@ class ProductService extends AbstractService
     private $categoryRepository;
 
     /**
+     * @var MediaProductService
+     */
+    private $mediaProductService;
+
+    /**
      * ProductService constructor.
      *
      * @param Security           $security
@@ -48,7 +53,8 @@ class ProductService extends AbstractService
         ProductRepository $productRepository,
         ValidatorInterface $validator,
         CategoryRepository $categoryRepository,
-        VariationService $variationService
+        VariationService $variationService,
+        MediaProductService $mediaProductService
         )
     {
         $this->security = $security;
@@ -56,18 +62,20 @@ class ProductService extends AbstractService
         $this->variationService = $variationService;
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->mediaProductService = $mediaProductService;
     }
 
     /**
      * @param array $data
+     * @param array $files
      * @return mixed
      * @throws \App\Response\ApiResponseException
      */
-    public function saveProduct(array $data)
+    public function saveProduct(array $data, array $files)
     {
         $entities = [];
 
-        $this->validateProductAndRelatedResources($data, $entities);
+        $this->validateProductAndRelatedResources($data, $entities, $files);
         return $this->saveProductAndRelatedResources($entities);
     }
 
@@ -76,14 +84,15 @@ class ProductService extends AbstractService
      * @param $entities
      * @throws \App\Response\ApiResponseException
      */
-    private function validateProductAndRelatedResources($data, &$entities)
+    private function validateProductAndRelatedResources($data, &$entities, $files)
     {
         $errors = [];
 
         $this->validateProduct($data, $entities, $errors);
         $this->variationService->validateVariations($data, $entities, $errors);
+        $this->mediaProductService->validateImages($data, $entities, $errors, $files);
         /*
-         * Next Validations for Files and Tags
+         * Next Validations for Tags
          */
 
         if ( \count( $errors ) ) {
@@ -118,7 +127,12 @@ class ProductService extends AbstractService
             $this->renderFailureResponse(['The Category does not exist']);
         }
 
+        //dd($entities['images']);
         $product->setCategory($category);
+        $product->addMediaProduct($entities['images']);
+
+        //dd($product->getMediaProducts());
+
         $this->productRepository->save($product);
         $this->variationService->saveVariations($product, $entities);
 
