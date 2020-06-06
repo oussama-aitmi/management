@@ -48,12 +48,11 @@ class VariationService extends AbstractService{
         if (isset($data['variations']) && !empty($variations = $data['variations'])) {
             foreach ($variations as $key => $variation) {
                 $variationEntity = $this->variationRepository->loadData($variation);
-                $validationReturn = $this->validator->validate($variationEntity);
-                $validation['variations'][] = $this->getMessagesAndViolations($validationReturn);
+                $validation['variations'][$key] = $this->getDetailsViolations($this->validator->validate($variationEntity));
+                $validation['variations'][$key]['key'] = $key;
                 $entities['variations'][] = $variationEntity;
+                $errors = array_merge($errors, $validation);
             }
-
-            empty(array_filter($validation['variations'])) ?: $errors = array_merge($errors ,$validation);
         }
     }
 

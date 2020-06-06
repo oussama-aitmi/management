@@ -47,10 +47,26 @@ abstract class AbstractService
         }
 
         return array_filter([
-            'message' => $messages ?: implode("\n ", $messages),
-            'detail' => $violations,
+            //'message' => $messages ?: implode("\n ", $messages),
+            'errors' => $violations,
         ]);
 
     }
 
+    /**
+     * @param $constraintViolationList
+     * @return array|\array[][]
+     */
+    public function getDetailsViolations($constraintViolationList): array
+    {
+        $violations = $messages = [];
+
+        foreach ($constraintViolationList as $violation) {
+            $violations[$violation->getPropertyPath()] = $violation->getMessage();
+        }
+
+        return[
+            'detail' => [$violations]
+        ];
+    }
 }
