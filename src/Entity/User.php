@@ -94,6 +94,7 @@ class User implements UserInterface
     {
         //$this->products = new ArrayCollection();
         //$this->categories = new ArrayCollection();
+        $this->setRoles(['ROLE_ADMIN']);
     }
 
     public function getId(): ?int

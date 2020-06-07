@@ -91,6 +91,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php72" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php73" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php80" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/process" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/profiler-pack" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/property-access" />
@@ -132,5 +133,6 @@
     <orderEntry type="module" module-name="argondashboardpro-111" />
     <orderEntry type="module" module-name="vue-argon-dashboard-master" />
     <orderEntry type="module" module-name="vue-argon-dashboard-master" />
+    <orderEntry type="module" module-name="apittp" />
   </component>
 </module>

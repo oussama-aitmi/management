@@ -3,14 +3,34 @@
   <component name="ChangeListManager">
     <list default="true" id="068a1206-9011-4253-941e-84e32acc7cab" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/management.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/management.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CategoryController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Product.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Variation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Variation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/ProductRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ProductRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Rules/AbstractRulesService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Rules/AbstractRulesService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/AbstractService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/AbstractService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/CategoryService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/CategoryService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/MediaProductService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/MediaProductService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/ProductService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/ProductService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/VariationService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/VariationService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Validator/CategoryValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validator/CategoryValidator.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/ApiBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/ApiBundle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/BlogBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/BlogBundle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/EventBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/EventBundle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/MailerBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/MailerBundle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/MailingBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/MailingBundle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/PaymentBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/PaymentBundle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/RbacBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/RbacBundle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/TalkBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/TalkBundle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/WtbBundle" beforeDir="false" afterPath="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/WtbBundle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,6 +173,7 @@
       <path value="$PROJECT_DIR$/vendor/nelmio/cors-bundle" />
       <path value="$PROJECT_DIR$/vendor/dms/dms-filter" />
       <path value="$PROJECT_DIR$/vendor/dms/dms-filter-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
     </include_path>
   </component>
   <component name="ProjectId" id="1ZaqRez9MuzhkL1yo8sI7DUCBcy" />
@@ -162,11 +183,12 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.jetbrains.php.phpunit.codeGeneration.PhpNewTestDialog.defaultLibrary" value="PHPUnit" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/config/packages" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Validator/Constraints" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -188,14 +210,17 @@
       <recent name="$PROJECT_DIR$/src/EventListener" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/config/packages" />
-      <recent name="$PROJECT_DIR$/../vue/src" />
-      <recent name="$PROJECT_DIR$/../management-front/src/components" />
-      <recent name="$PROJECT_DIR$/../management-front/src/views" />
-      <recent name="$PROJECT_DIR$/../management-front/src/layouts" />
+      <recent name="$PROJECT_DIR$/src/Validator/Constraints" />
+      <recent name="$PROJECT_DIR$/src/Rules" />
+      <recent name="$PROJECT_DIR$/src/Validator" />
+      <recent name="$PROJECT_DIR$/src/Service" />
+      <recent name="$PROJECT_DIR$/src/Entity" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="PHP Script.AbstractRulesService.php">
+    <configuration name="AbstractRulesService.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/../tmtpro/apittp/src/TTP/ApiBundle/Validator/Filter/Rules/AbstractRulesService.php">
+      <method v="2" />
+    </configuration>
     <configuration name="serve" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/../management-front/package.json" />
       <command value="run" />
@@ -209,6 +234,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="npm.serve" />
+        <item itemvalue="PHP Script.AbstractRulesService.php" />
       </list>
     </recent_temporary>
   </component>
@@ -231,6 +257,10 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="417" y="152" key="#AbstractRulesService.php" timestamp="1590719185731">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="417" y="152" key="#AbstractRulesService.php/0.0.1440.900@0.0.1440.900" timestamp="1590719185731" />
     <state x="354" y="135" key="#Inspections" timestamp="1587212432625">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -243,10 +273,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="184" y="112" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1588475498038" />
-    <state x="526" y="139" key="#com.intellij.ide.util.MemberChooser" timestamp="1588355551739">
+    <state x="526" y="139" key="#com.intellij.ide.util.MemberChooser" timestamp="1591241122931">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="526" y="139" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1588355551739" />
+    <state x="526" y="139" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1591241122931" />
     <state x="444" y="204" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1586176200525">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -255,30 +285,30 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="289" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.900@0.0.1440.900" timestamp="1587596143199" />
-    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1588730128207">
+    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1591483731038">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.900@0.0.1440.900" timestamp="1588730128207" />
+    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.900@0.0.1440.900" timestamp="1591483731038" />
     <state x="307" y="25" key="CommitChangelistDialog2" timestamp="1590595506161">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="307" y="25" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1590595506161" />
-    <state width="1440" height="251" key="GridCell.Tab.0.bottom" timestamp="1590508785777">
+    <state width="1440" height="251" key="GridCell.Tab.0.bottom" timestamp="1591485965899">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1440" height="251" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1590508785777" />
-    <state width="1440" height="251" key="GridCell.Tab.0.center" timestamp="1590508785776">
+    <state width="1440" height="251" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1591485965899" />
+    <state width="1440" height="251" key="GridCell.Tab.0.center" timestamp="1591485965898">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1440" height="251" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1590508785776" />
-    <state width="1440" height="251" key="GridCell.Tab.0.left" timestamp="1590508785775">
+    <state width="1440" height="251" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1591485965898" />
+    <state width="1440" height="251" key="GridCell.Tab.0.left" timestamp="1591485965897">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1440" height="251" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1590508785775" />
-    <state width="1440" height="251" key="GridCell.Tab.0.right" timestamp="1590508785777">
+    <state width="1440" height="251" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1591485965897" />
+    <state width="1440" height="251" key="GridCell.Tab.0.right" timestamp="1591485965898">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1440" height="251" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1590508785777" />
+    <state width="1440" height="251" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1591485965898" />
     <state x="308" y="192" key="IDE.errors.dialog" timestamp="1590537634612">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -287,26 +317,27 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="451" y="183" key="NewPhpClassDialog/0.0.1440.900@0.0.1440.900" timestamp="1590554946269" />
-    <state x="541" y="380" key="NewPhpFileDialog" timestamp="1589080490280">
+    <state x="541" y="380" key="NewPhpFileDialog" timestamp="1590720614639">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="541" y="380" key="NewPhpFileDialog/0.0.1440.900@0.0.1440.900" timestamp="1589080490280" />
-    <state width="500" height="445" key="SwitcherDM" timestamp="1588693825013">
+    <state x="541" y="380" key="NewPhpFileDialog/0.0.1440.900@0.0.1440.900" timestamp="1590720614639" />
+    <state width="500" height="445" key="SwitcherDM" timestamp="1591485991625">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="500" height="445" key="SwitcherDM/0.0.1440.900@0.0.1440.900" timestamp="1588693825013" />
+    <state width="500" height="445" key="SwitcherDM/0.0.1440.900@0.0.1440.900" timestamp="1591485991625" />
+    <state width="500" height="445" key="SwitcherDM/0.23.1440.877@0.23.1440.877" timestamp="1591485984654" />
     <state x="469" y="147" key="com.jetbrains.php.test.PhpNewTestDialog" timestamp="1587600367795">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="469" y="147" key="com.jetbrains.php.test.PhpNewTestDialog/0.0.1440.900@0.0.1440.900" timestamp="1587600367795" />
-    <state x="240" y="97" width="994" height="670" key="find.popup" timestamp="1590557201947">
+    <state x="240" y="97" width="994" height="670" key="find.popup" timestamp="1591227390906">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="240" y="97" width="994" height="670" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1590557201947" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1590691496050">
+    <state x="240" y="97" width="994" height="670" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1591227390906" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1591490215751">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1590691496050" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.23.1440.877@0.23.1440.877" timestamp="1589433798770" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1591490215751" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.23.1440.877@0.23.1440.877" timestamp="1591371473895" />
   </component>
 </project>

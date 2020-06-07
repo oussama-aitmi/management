@@ -24,8 +24,7 @@ class Variation
 
     /**
      * @ORM\Column(type="string", length=150)
-     * @Assert\NotBlank(
-     *     message="Nom de Variant est invalide")
+     * @Assert\NotBlank( message="Nom de variant ne dois pas être vide")
      * @Groups({"public", "allowPosted"})
      */
     private $value;
