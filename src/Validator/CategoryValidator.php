@@ -23,17 +23,19 @@ class CategoryValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        //$this->validateCategory($value);
+        $this->validateCategory($value);
     }
 
     protected function validateCategory(Category $category)
     {
-        if ( $this->isNewEntity( $category->getParent() ) ) {
+        //dd("validateCategory");
+        return "dddddd";
+        /*if ( $this->isNewEntity( $category->getParent() ) ) {
             $this->context->buildViolation('The Category does not exist-Validator')
                 ->atPath('category')
                 ->setInvalidValue(null)
                 ->addViolation();
-        }
+        }*/
     }
 
     private function isNewEntity($entity)
