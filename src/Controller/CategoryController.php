@@ -52,7 +52,7 @@ class CategoryController extends BaseController
     {
         $data = $request->request->all();
 
-        return $this->view($this->categoryService->addCategory($category->setUser($this->getUser()), $data));
+        return $this->view($this->categoryService->saveCategory($category->setUser($this->getUser()), $data));
     }
 
     /**
@@ -71,7 +71,7 @@ class CategoryController extends BaseController
             ['object_to_populate' => $category, 'groups' => 'allowPosted']
         );
 
-        return $this->view($this->categoryService->updateCategory($category, $data), Response::HTTP_OK);
+        return $this->view($this->categoryService->saveCategory($category, $data), Response::HTTP_OK);
     }
 
     /**

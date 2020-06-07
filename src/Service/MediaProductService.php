@@ -5,62 +5,49 @@ namespace App\Service;
 
 use App\Entity\MediaProduct;
 use App\Repository\MediaProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class MediaProductService extends AbstractService{
 
 
-    /**
-     * @var ValidatorInterface
-     */
     protected $validator;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    /**
-     * @var MediaProductRepository
-     */
     private $repository;
 
     /**
      * VariationService constructor.
      *
-     * @param ValidatorInterface     $validator
-     * @param MediaProductRepository           $repository
-     * @param EntityManagerInterface $em
+     * @param ValidatorInterface      $validator
+     * @param MediaProductRepository  $repository
      */
-    public function __construct(ValidatorInterface $validator, MediaProductRepository $repository, EntityManagerInterface $em)
+    public function __construct(ValidatorInterface $validator, MediaProductRepository $repository)
     {
         $this->validator = $validator;
-        $this->em = $em;
         $this->repository = $repository;
     }
 
     /**
-     * @param       $data
      * @param       $entities
      * @param array $errors
      * @param       $files
      */
-    public function validateImages($data, &$entities, array &$errors, $files): void
+    public function validateImages(&$entities, array &$errors, $files): void
     {
-        if (isset ($files['images']) && $files['images'] instanceof UploadedFile){
+        foreach ($files['images'] as $key => $mediaTag) {
+            if (isset($mediaTag) && $mediaTag instanceof UploadedFile){
+                $document = new MediaProduct();
+                $document->setFile($mediaTag);
 
-            $document = new MediaProduct();
-            $document->setFile($files['images']);
+                $validationReturn = $this->getDetailsViolations($this->validator->validate($document));
+                if (!empty($validationReturn)){
+                    $validation['images'][$key] = $validationReturn;
+                    $validation['images'][$key]['key'] = $key;
+                    $errors = array_merge($errors, $validation);
+                }
 
-            $validationReturn = $this->validator->validate($document);
-            $validation['images'][] = $this->getMessagesAndViolations($validationReturn);
-            $entities['images'] = $document;
-
-
-            empty(array_filter($validation['images'])) ?: $errors = array_merge($errors ,$validation);
+                $entities['images']->addMediaProduct($document);
+            }
         }
     }
-
 }

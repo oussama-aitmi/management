@@ -38,7 +38,7 @@ class ProductRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-    public function loadData($data, $user)
+    public function loadData($data)
     {
         if( isset($data['updateId'])){
             $updateId = $data['updateId'];
@@ -47,10 +47,6 @@ class ProductRepository extends ServiceEntityRepository
             }
         } else {
             $product = new Product();
-            /*
-             * Update case we keep the product's owner if the Admin updating
-             */
-            $product->setUser($user);
         }
 
         return $product->loadData($data);

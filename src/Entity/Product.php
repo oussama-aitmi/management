@@ -12,10 +12,13 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use DMS\Filter\Rules as Filter;
+use App\Validator\Constraints\ProductConstraint;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
+ *
+ * @ProductConstraint
  */
 class Product
 {
@@ -147,8 +150,7 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="product")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"allowPosted"})
-     * @Groups({"public"})
+     * @Groups({"public", "allowPosted"})
      */
     private $category;
 

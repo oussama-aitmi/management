@@ -11,35 +11,18 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProductService extends AbstractService
 {
-    /**
-     * @var Security
-     */
+
     private $security;
 
-    /**
-     * @var ProductRepository
-     */
     private $productRepository;
 
-    /**
-     * @var ValidatorInterface
-     */
     private $validator;
 
-    /**
-     * @var VariationService
-     */
     private $variationService;
 
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-
-    /**
-     * @var MediaProductService
-     */
     private $mediaProductService;
+
+    private $categoryService;
 
     /**
      * ProductService constructor.
@@ -52,7 +35,7 @@ class ProductService extends AbstractService
         Security $security,
         ProductRepository $productRepository,
         ValidatorInterface $validator,
-        CategoryRepository $categoryRepository,
+        CategoryService $categoryService,
         VariationService $variationService,
         MediaProductService $mediaProductService
         )
@@ -61,8 +44,8 @@ class ProductService extends AbstractService
         $this->validator = $validator;
         $this->variationService = $variationService;
         $this->productRepository = $productRepository;
-        $this->categoryRepository = $categoryRepository;
         $this->mediaProductService = $mediaProductService;
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -76,7 +59,7 @@ class ProductService extends AbstractService
         $entities = [];
 
         $this->validateProductAndRelatedResources($data, $entities, $files);
-        return $this->saveProductAndRelatedResources($entities);
+        return $this->saveProductAndRelatedResources($entities, $data);
     }
 
     /**
@@ -90,13 +73,14 @@ class ProductService extends AbstractService
 
         $this->validateProduct($data, $entities, $errors);
         $this->variationService->validateVariations($data, $entities, $errors);
-        $this->mediaProductService->validateImages($data, $entities, $errors, $files);
+        $this->mediaProductService->validateImages($entities, $errors, $files);
         /*
-         * Next Validations for Tags
+         * Next Validation for Tags
          */
 
         if ( \count( $errors ) ) {
-            $this->renderFailureResponse($errors);
+            $outPut['errors'] = $errors;
+            $this->renderFailureResponse($outPut);
         }
     }
 
@@ -107,32 +91,49 @@ class ProductService extends AbstractService
      */
     private function validateProduct($data, &$entities, &$errors)
     {
-        $productEntity = $this->productRepository->loadData($data, $this->security->getUser());
-        $productValidation = $this->getMessagesAndViolations($this->validator->validate($productEntity));
+        $productEntity = $this->productRepository->loadData($data);
+        $productValidation = $this->getDetailsViolations($this->validator->validate($productEntity));
 
-        if( !empty($productValidation) ) {
-            $errors = $productValidation;
+        if(!empty($productValidation)){
+            $errors['product'] = $productValidation;
         }
 
         $entities['product'] = $productEntity;
     }
 
-    private function saveProductAndRelatedResources($entities)
+    /**
+     * @param $entities
+     * @param $data
+     * @return mixed
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    private function saveProductAndRelatedResources($entities, $data)
     {
+        /*
+         * @var $product Product
+         */
         $product = $entities['product'];
 
-        if(!$category = $this->categoryRepository->findOneBy(
-            ['id'=> $product->getCategory(),'user' =>$this->security->getUser()])
-        ){
-            $this->renderFailureResponse(['The Category does not exist']);
+        /*
+         * Prepare Product && Assign dependencies
+         */
+        $product->setCategory($this->categoryService->getCategoryById($product->getCategory()));
+
+        foreach ($entities['images'] as $mediaProduct) {
+            $product->addMediaProduct($mediaProduct);
         }
 
-        //dd($entities['images']);
-        $product->setCategory($category);
-        $product->addMediaProduct($entities['images']);
+        /*
+        * Update case : We keep the owner of the product if the administrator who is doing the update
+        */
+        if(!isset($data['updateId'])){
+            $product->setUser($this->security->getUser());
+        }
 
-        //dd($product->getMediaProducts());
-
+        /*
+         * Save All
+         */
         $this->productRepository->save($product);
         $this->variationService->saveVariations($product, $entities);
 
