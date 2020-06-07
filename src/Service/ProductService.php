@@ -3,7 +3,7 @@
 
 namespace App\Service;
 
-use App\Repository\CategoryRepository;
+use App\Entity\Product;
 use App\Repository\ProductRepository;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -110,15 +110,13 @@ class ProductService extends AbstractService
      */
     private function saveProductAndRelatedResources($entities, $data)
     {
-        /*
-         * @var $product Product
-         */
+         /** @var Product $product */
         $product = $entities['product'];
 
         /*
          * Prepare Product && Assign dependencies
          */
-        $product->setCategory($this->categoryService->getCategoryById($product->getCategory()));
+        $product->setCategory($this->categoryService->getCategoryById($data['category']));
 
         if (isset($entities['images'])){
             foreach ($entities['images'] as $mediaProduct) {
@@ -130,7 +128,7 @@ class ProductService extends AbstractService
         * Update case : We keep the owner of the product if the administrator who is doing the update
         */
         if(!isset($data['updateId'])){
-            $product->setUser($this->security->getUser());
+            $product->setUser( $this->security->getUser());
         }
 
         /*
