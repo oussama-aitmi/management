@@ -46,7 +46,7 @@ class MediaProductService extends AbstractService{
                     $errors = array_merge($errors, $validation);
                 }
 
-                $entities['images']->addMediaProduct($document);
+                $entities['images'][] = $document;
             }
         }
     }
