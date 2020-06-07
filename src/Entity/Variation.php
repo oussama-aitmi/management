@@ -6,6 +6,7 @@ use App\Traits\DataLoader;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use DMS\Filter\Rules as Filter;
 
 
 /**
@@ -24,14 +25,20 @@ class Variation
 
     /**
      * @ORM\Column(type="string", length=150)
-     * @Assert\NotBlank( message="Nom de variant ne dois pas être vide")
+     * @Assert\NotBlank(message="Nom de variant ne dois pas être vide")
+     * @Filter\StripTags()
+     * @Filter\Trim()
+     * @Filter\StripNewlines()
      * @Groups({"public", "allowPosted"})
      */
     private $value;
 
     /**
      * @ORM\Column(type="decimal", precision=9, scale=2)
-     * @Assert\Positive(message = "Prix d'achat est invalide")
+     * @Assert\Type(type="numeric", message="Prix d'achat doit être supérieure de 0")
+     * @Assert\NotBlank(
+     *      message = "Prix d'achat est invalide",
+     * )
      * @Groups({"public", "allowPosted"})
      */
     private $basePrice;
@@ -45,7 +52,10 @@ class Variation
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Positive(message = "Quantité est invalide")
+     * @Assert\Type(type="numeric", message="Quantité invalide.")
+     * @Assert\NotBlank(
+     *      message = "Quantité ne doit pas être vide",
+     * )
      * @Groups({"public", "allowPosted"})
      */
     private $quantity;
