@@ -120,8 +120,10 @@ class ProductService extends AbstractService
          */
         $product->setCategory($this->categoryService->getCategoryById($product->getCategory()));
 
-        foreach ($entities['images'] as $mediaProduct) {
-            $product->addMediaProduct($mediaProduct);
+        if (isset($entities['images'])){
+            foreach ($entities['images'] as $mediaProduct) {
+                $product->addMediaProduct($mediaProduct);
+            }
         }
 
         /*
