@@ -65,8 +65,12 @@ abstract class AbstractService
             $violations[$violation->getPropertyPath()] = $violation->getMessage();
         }
 
-        return[
+        if(!$violations){
+            return [];
+        }
+
+        return array_filter([
             'detail' => [$violations]
-        ];
+        ]);
     }
 }
