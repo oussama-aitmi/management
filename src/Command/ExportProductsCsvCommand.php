@@ -9,7 +9,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ExportProductsCsvCommand extends Command
 {
@@ -21,7 +21,7 @@ class ExportProductsCsvCommand extends Command
 
     private  $filesystem;
 
-    public function __construct(EntityManagerInterface $em, Serializer $serializer, Filesystem $filesystem)
+    public function __construct(EntityManagerInterface $em, NormalizerInterface $serializer, Filesystem $filesystem)
     {
         parent::__construct();
         $this->em = $em;
