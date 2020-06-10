@@ -70,9 +70,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=20)
-     * @Assert\NotBlank(
-     *      message = "Status ne doit pas être vide",
-     * )
+     * @Assert\NotBlank(message = "Status ne doit pas être vide")
      * @Assert\Choice(
      *     choices = {"DRAFT", "PUBLISHED", "DELETED"},
      *     message = "Status est invalide",
@@ -189,7 +187,7 @@ class Product
         return $this;
     }
 
-    public function getStatus(): ?bool
+    public function getStatus(): ?string
     {
         return $this->status;
     }
@@ -245,7 +243,7 @@ class Product
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser($user): self
     {
         $this->user = $user;
         return $this;
