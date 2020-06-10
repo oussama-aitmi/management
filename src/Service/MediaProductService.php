@@ -34,19 +34,21 @@ class MediaProductService extends AbstractService{
      */
     public function validateImages(&$entities, array &$errors, $files): void
     {
-        foreach ($files['images'] as $key => $mediaTag) {
-            if (isset($mediaTag) && $mediaTag instanceof UploadedFile){
-                $document = new MediaProduct();
-                $document->setFile($mediaTag);
+        if (isset($files['images']) && !empty($files['images'])) {
+            foreach ($files['images'] as $key => $mediaTag) {
+                if (isset($mediaTag) && $mediaTag instanceof UploadedFile){
+                    $document = new MediaProduct();
+                    $document->setFile($mediaTag);
 
-                $validationReturn = $this->getDetailsViolations($this->validator->validate($document));
-                if (!empty($validationReturn)){
-                    $validation['images'][$key] = $validationReturn;
-                    $validation['images'][$key]['key'] = $key;
-                    $errors = array_merge($errors, $validation);
+                    $validationReturn = $this->getDetailsViolations($this->validator->validate($document));
+                    if (!empty($validationReturn)){
+                        $validation['images'][$key] = $validationReturn;
+                        $validation['images'][$key]['key'] = $key;
+                        $errors = array_merge($errors, $validation);
+                    }
+
+                    $entities['images'][] = $document;
                 }
-
-                $entities['images'][] = $document;
             }
         }
     }
