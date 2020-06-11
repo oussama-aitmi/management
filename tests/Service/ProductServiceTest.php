@@ -5,6 +5,7 @@ namespace App\Tests;
 use App\DataFixtures\CategoryFixtures;
 use App\DataFixtures\UserFixture;
 use App\Entity\Product;
+use App\Entity\Variation;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
@@ -88,6 +89,76 @@ class ProductServiceTest extends WebTestCase
         $this->assertNotNull($product->getSlug());
     }
 
+
+    public function testSaveProductWithVariations(): void
+    {
+        $user = self::$container->get(UserRepository::class)->find(1);
+        $category = self::$container->get(CategoryRepository::class)->find(1);
+        $productRepository = self::$container->get(ProductRepository::class);
+        $variationService = self::$container->get(VariationService::class);
+        $mediaProductService = $this->getMockBuilder(MediaProductService::class)->disableOriginalConstructor()->getMock();
+
+        $data = $this->getProductFaker();
+
+        $data['category'] = $category->getId();
+        $data['user'] = $user->getId();
+        $data['variations'] = $this->getVariationsFaker();
+
+        $categoryService = $this->getMockBuilder(CategoryService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $categoryService->expects($this->once())
+            ->method('getCategoryById')
+            ->willReturn($category);
+
+        $security = $this->getMockBuilder(Security::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $security->expects($this->once())
+            ->method('getUser')
+            ->willReturn($user);
+
+        $validator = $this->getMockBuilder(ValidatorInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $validator->expects($this->once())
+            ->method('validate')
+            ->willReturn([]);
+
+        $productService = new ProductService(
+            $security,
+            $productRepository,
+            $validator,
+            $categoryService,
+            $variationService,
+            $mediaProductService
+        );
+
+        $product =$productService->saveProduct($data);
+        $this->assertInstanceOf(Product::class, $product);
+
+        foreach ($data['variations'] as $key => $variation){
+            $this->assertInstanceOf(Variation::class, $product->getVariations()[$key]);
+            $this->assertEquals($variation['value'], $product->getVariations()[$key]->getValue());
+            $this->assertEquals($variation['basePrice'], $product->getVariations()[$key]->getBasePrice());
+            $this->assertEquals($variation['sellPrice'], $product->getVariations()[$key]->getSellPrice());
+            $this->assertEquals($variation['quantity'], $product->getVariations()[$key]->getQuantity());
+        }
+    }
+
+
+    /*
+     * TODO Regroupe tous les Test d'une seul fonction
+     */
+    public function provideCollections()
+    {
+        return [
+            [''],
+            ['variations']
+            ['images']
+            ['tags']
+        ];
+    }
 
 
     /*public function SaveProduct(): void

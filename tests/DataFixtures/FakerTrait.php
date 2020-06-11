@@ -48,4 +48,23 @@ trait FakerTrait
             'name'    => $faker->text(10),
         ];
     }
+
+    /**
+     * @return array
+     */
+    public function getVariationsFaker()
+    {
+        $faker = $this->getFaker();
+
+        for ($c = 1; $c <= 5; $c++){
+            $variation[] = [
+                'value'            => $faker->text(50),
+                'basePrice'        => $faker->numberBetween(2, 9999),
+                'sellPrice'        => $faker->numberBetween(12, 999999),
+                'quantity'         => $faker->randomNumber(5),
+            ];
+        }
+
+        return $variation;
+    }
 }
