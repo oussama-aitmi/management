@@ -56,12 +56,7 @@ php bin/console doctrine:fixtures:load
     Content-Type: application/json
 
 {
-    "token": "token",
-    "user": {
-        "id": 1,
-        "firstName": "firstName",
-        "email": "email"
-    }
+    "token": "token"
 }
 </pre>
 
@@ -81,11 +76,7 @@ php bin/console doctrine:fixtures:load
     Content-Type: application/json
 
 {
-  "token":"token", 
-  "user" :{
-    "name": "name",
-    "email": "email"
-  }
+  "token":"token"
 }
 </pre>
 
