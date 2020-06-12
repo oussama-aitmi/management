@@ -43,7 +43,6 @@ class ProductFixtures extends BaseFixture implements DependentFixtureInterface
             $product->setName(self::$productName[$count])
             ->setBasePrice($this->faker->numberBetween(50, 500))
             ->setSmallDescription($this->faker->text(50))
-            //->setImageURL($this->faker->randomElement(self::$productImages))
             ->setBasePrice($this->faker->numberBetween(50, 500))
             ->setSellPrice($this->faker->numberBetween(50, 500))
             ->setMinimumSalesQuantity($this->faker->numberBetween(50, 500))

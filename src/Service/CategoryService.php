@@ -45,33 +45,6 @@ class CategoryService extends AbstractService{
      * @param array    $data
      * @return Category
      * @throws ApiResponseException
-
-    public function addCategory(Category $category, $data): Category
-    {
-        if( !empty( $parent = $data['parent'] ) ){
-            if (!$parentCategory = $this->categoryRepository->findOneBy(
-                array('id'=> $parent,
-                    "user" => $category->getUser()))
-            ){
-                $this->renderFailureResponse('The Category does not exist', Response::HTTP_NOT_FOUND);
-            }
-            $category->setParent($parentCategory);
-        }
-
-        if ( \count( $errors = $this->validator->validate($category) ) ) {
-            $this->renderFailureResponse($this->normalizeViolations($errors));
-        }
-
-        $this->categoryRepository->save($category);
-
-        return $category;
-    }*/
-
-    /**
-     * @param Category $category
-     * @param array    $data
-     * @return Category
-     * @throws ApiResponseException
      */
     public function saveCategory(Category $category, $data): Category
     {
@@ -80,7 +53,7 @@ class CategoryService extends AbstractService{
         }
 
         if(!empty($parent = $data['parent'] )){
-            if ($parentCategory = $this->checkExistCategoryById($parent)){
+            if ($parentCategory = $this->getCategoryById($parent)){
                 $category->setParent($parentCategory);
             }
         }
@@ -90,25 +63,15 @@ class CategoryService extends AbstractService{
         return $category;
     }
 
-
-    /**
-     * @param int $id
-     * @return Category|null
-     */
-    public function getCategoryById(int $id)
-    {
-        return $this->categoryRepository->findOneBy(array('id'=> $id,  "user" =>$this->security->getUser()));
-    }
-
     /**
      * @param int $id
      * @return Category|null
      * @throws ApiResponseException
      */
-    public function checkExistCategoryById(int $id)
+    public function getCategoryById(int $id)
     {
-        if ($category = $this->categoryRepository->findOneBy( array('id'=> $id,  "user" =>$this->security->getUser()))) {
-            $this->renderFailureResponse('The Category does not exist', Response::HTTP_NOT_FOUND);
+        if (!$category = $this->categoryRepository->find($id)) {
+            $this->renderFailureResponse('Catégorie est invalide', Response::HTTP_NOT_FOUND);
         }
 
         return $category;

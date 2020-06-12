@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Service;
 
 use App\DataFixtures\CategoryFixtures;
 use App\DataFixtures\UserFixture;
@@ -148,7 +148,7 @@ class ProductServiceTest extends WebTestCase
 
 
     /*
-     * TODO Regroupe tous les Test d'une seul fonction
+     * TODO : Regroupe tous les Tests dans une seul fonction
      */
     public function provideCollections()
     {

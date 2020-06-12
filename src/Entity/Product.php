@@ -147,7 +147,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="product")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Groups({"public", "allowPosted"})
      */
     private $category;

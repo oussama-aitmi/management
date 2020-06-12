@@ -4,7 +4,6 @@ namespace App\Validator;
 
 use App\Entity\Product;
 use App\Repository\CategoryRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -32,7 +31,7 @@ class ProductValidator extends ConstraintValidator
 
     protected function validateCategory(Product $product)
     {
-        if (!$category = $this->categoryRepository->findOneBy(['id'=> $product->getCategory()])) {
+        if (!isset($product) || empty($product) || !$this->categoryRepository->findOneBy(['id'=> $product->getCategory()])) {
             $this->context->buildViolation('Catégorie est invalide')
                 ->atPath('category')
                 ->setInvalidValue(null)

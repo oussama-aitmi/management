@@ -54,7 +54,7 @@ class ProductService extends AbstractService
      * @return mixed
      * @throws \App\Response\ApiResponseException
      */
-    public function saveProduct(array $data, array $files)
+    public function saveProduct(array $data, array $files = null)
     {
         $entities = [];
 
@@ -128,7 +128,7 @@ class ProductService extends AbstractService
         * Update case : We keep the owner of the product if the administrator who is doing the update
         */
         if(!isset($data['updateId'])){
-            $product->setUser( $this->security->getUser());
+            $product->setUser($this->security->getUser());
         }
 
         /*
