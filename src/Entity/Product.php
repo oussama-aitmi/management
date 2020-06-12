@@ -153,7 +153,9 @@ class Product
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MediaProduct", mappedBy="product", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\MediaProduct", mappedBy="product", orphanRemoval=true, cascade={"all"})
+     * @ORM\JoinColumn(nullable=true)
+     * @Groups({"public", "allowPosted"})
      */
     private $mediaProducts;
 
