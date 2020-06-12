@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -40,16 +41,17 @@ class ProductRepository extends ServiceEntityRepository
 
     public function loadData($data)
     {
-        if( isset($data['updateId'])){
-            $updateId = $data['updateId'];
-            if(empty($updateId) || !is_numeric($updateId) || !$product = $this->findOneBy(array("id" => $updateId))){
-                throw new NotFoundHttpException("Error loading product Id !");
-            }
-        } else {
+        if(!isset($data['updateId'])){
             $product = new Product();
+            return $product->loadData($data);
+        }
+
+        $updateId = $data['updateId'];
+
+        if(!is_numeric($updateId) || !$product = $this->find($updateId)){
+            throw new NotFoundHttpException("Error loading product Id !");
         }
 
         return $product->loadData($data);
     }
-
 }

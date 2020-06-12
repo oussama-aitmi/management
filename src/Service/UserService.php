@@ -63,8 +63,7 @@ class UserService extends AbstractService{
         $this->userRepository->save($user);
 
         return [
-            'token' => $this->JWTTokenManager->create($user),
-            'user' => $user
+            'token' => $this->JWTTokenManager->create($user)
         ];
     }
 

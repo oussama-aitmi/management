@@ -8,9 +8,7 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
@@ -40,7 +38,6 @@ class ProductController extends BaseController
      * @param Request  $request
      * @return View
      * @throws \App\Response\ApiResponseException
-     *
      * @Rest\View(serializerGroups={"public"}, serializerEnableMaxDepthChecks=1, StatusCode = 201)
      *
      * @IsGranted("ROLE_MANAGE")
@@ -56,7 +53,7 @@ class ProductController extends BaseController
     /**
      * @Rest\Put("/product/{id}", name="put_product")
      * @param Request $request
-     * @param Product $product
+     * @param Product $product #Need for IsGranted
      * @param int     $id
      * @return View
      * @throws \App\Response\ApiResponseException

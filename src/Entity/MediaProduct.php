@@ -6,6 +6,7 @@ use App\Traits\DataLoader;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MediaProductRepository")
@@ -15,10 +16,13 @@ class MediaProduct extends Document
 {
     use DataLoader;
 
+    protected $uploadRootDir = 'products';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"public"})
      */
     protected $id;
 
@@ -26,17 +30,6 @@ class MediaProduct extends Document
      * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="mediaProducts", cascade={"persist"})
      */
     private $product;
-
-    /**
-     *TODO multi files
-     */
-    private $uploadedFiles;
-
-
-    public function __construct() {
-        $this->uploadedFiles = new ArrayCollection();
-    }
-
 
     public function getId(): ?int
     {
@@ -51,7 +44,6 @@ class MediaProduct extends Document
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
-
         return $this;
     }
 }

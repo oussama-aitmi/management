@@ -25,55 +25,32 @@ trait ApiResponseTrait
     }
 
     /**
-     * @param  $violations
-     * @param null $format
-     * @param array $context
-     * @return array
-     */
-    public function normalizeViolations($violations, $format = null)
-    {
-        //[$messages, $violations] = $this->getMessagesAndViolations($object);
-        //dd($violations);
-        return [
-            //'message' => $messages ? implode("\n", $messages) : 'Une erreur est survenue',
-            'form2222' => $violations,
-        ];
-    }
-
-    /**
      * @param $constraintViolationList
      * @return array
      */
     public function getMessagesAndViolations($constraintViolationList): array
     {
         $violations = $messages = [];
-
         foreach ($constraintViolationList as $violation) {
             $violations[] = [
-                $violation->getPropertyPath() => $violation->getMessage() ,
+                $violation->getPropertyPath() => $violation->getMessage(),
             ];
-
-            $propertyPath = $violation->getPropertyPath();
-            //$messages[] = ($propertyPath ? $propertyPath.': ' : '').$violation->getMessage();
             $messages[] = $violation->getMessage();
-
         }
 
         return array_filter([
-            //'message' => $messages ?: implode("\n ", $messages),
+            'message' => $messages ?: implode("\n ", $messages),
             'errors' => $violations,
         ]);
-
     }
 
     /**
      * @param $constraintViolationList
-     * @return array|\array[][]
+     * @return array
      */
     public function getDetailsViolations($constraintViolationList): array
     {
         $violations = $messages = [];
-
         foreach ($constraintViolationList as $violation) {
             $violations[$violation->getPropertyPath()] = $violation->getMessage();
         }

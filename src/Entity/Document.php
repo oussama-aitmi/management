@@ -6,15 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use DMS\Bundle\FilterBundle\Rule as SfFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 abstract class Document
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
 
     /**
      * @ORM\Column(type="guid", nullable=true)
@@ -25,14 +20,12 @@ abstract class Document
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"public"})
      */
     protected $path;
 
     /**
-     * @Assert\File(
-     *      maxSize = "6000000",
-     *      maxSizeMessage = "Taille fichier est trop grand {{ size }}.{{ suffix }}",
-     * )
+     * @Assert\File(maxSize = "6000000", maxSizeMessage = "Fichier est trop grand, taille maximale autorisée est 6Mo")
      */
     protected $file;
 
@@ -45,15 +38,6 @@ abstract class Document
      * @var string
      */
     protected $originalFileName;
-
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return string
@@ -90,7 +74,6 @@ abstract class Document
      */
     public function setFile(UploadedFile $file = null)
     {
-
         $this->file = $file;
         if (!empty($file)) {
             $this->setOriginalFileName($file->getClientOriginalName());
@@ -122,23 +105,13 @@ abstract class Document
         return (null === $this->path) ? null : $this->getUploadRootDir().'/'.$this->path;
     }
 
-    public function getWebPath()
-    {
-        return (null === $this->path) ? null : $this->getUploadDir().'/'.$this->path;
-    }
-
     protected function getUploadRootDir(): string
     {
-        if(!is_dir(__DIR__.'/../../web/'.$this->getUploadDir())) {
+        if(!is_dir(__DIR__.'/../../public/uploads/'.$this->uploadRootDir)) {
             dd("upload folder not exist!");
         }
 
-        return __DIR__.'/../../web/'.$this->getUploadDir();
-    }
-
-    protected function getUploadDir()
-    {
-        return 'uploads/products';
+        return __DIR__.'/../../public/uploads/'.$this->uploadRootDir;
     }
 
     public function getOriginalFileName()
@@ -149,7 +122,6 @@ abstract class Document
     protected function setOriginalFileName($originalFileName)
     {
         $this->originalFileName = $originalFileName;
-
         return $this;
     }
 
@@ -159,9 +131,7 @@ abstract class Document
      */
     public function preUpload()
     {
-        //dd("PrePersist");
         if (null !== $this->getFile()) {
-            // do whatever you want to generate a unique name
             $filename = sha1(uniqid(mt_rand(), true));
             $this->path = $filename.'.'.$this->getFile()->guessExtension();
         }
@@ -173,7 +143,6 @@ abstract class Document
      */
     public function upload()
     {
-
         if (null === $this->getFile()) {
             return;
         }
