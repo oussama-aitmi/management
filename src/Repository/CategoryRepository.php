@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Category|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,6 +22,7 @@ class CategoryRepository extends ServiceEntityRepository
 
     /**
      * @param Category $category
+     * @throws \Doctrine\ORM\ORMException
      */
     public function save(Category $category): void
     {
@@ -30,6 +32,7 @@ class CategoryRepository extends ServiceEntityRepository
 
     /**
      * @param Category $category
+     * @throws \Doctrine\ORM\ORMException
      */
     public function delete(Category $category): void
     {
@@ -37,32 +40,23 @@ class CategoryRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-    // /**
-    //  * @return Category[] Returns an array of Category objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param $data
+     * @return Category
+     */
+    public function loadData($data)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        if(!isset($data['updateId'])){
+            $category = new Category();
+            return $category->loadData($data);
+        }
 
-    /*
-    public function findOneBySomeField($value): ?Category
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $updateId = $data['updateId'];
+
+        if(!is_numeric($updateId) || !$category = $this->find($updateId)){
+            throw new NotFoundHttpException("Error loading Category Id !");
+        }
+
+        return $category->loadData($data);
     }
-    */
 }

@@ -34,28 +34,28 @@ class CategoryService extends AbstractService{
      * @param ValidatorInterface $validator
      * @param Security           $security
      */
-    public function __construct(CategoryRepository $categoryRepository, ValidatorInterface $validator, Security $security) {
+    public function __construct(CategoryRepository $categoryRepository, ValidatorInterface $validator, Security $security){
         $this->validator = $validator;
         $this->categoryRepository = $categoryRepository;
         $this->security = $security;
     }
 
     /**
-     * @param Category $category
      * @param array    $data
      * @return Category
      * @throws ApiResponseException
      */
-    public function saveCategory(Category $category, $data): Category
+    public function saveCategory($data): Category
     {
+        $category = $this->categoryRepository->loadData($data);
+        $category->setUser($this->security->getUser());
+
         if (\count($errors = $this->validator->validate($category))) {
-            $this->renderFailureResponse($this->normalizeViolations($errors));
+            $this->renderFailureResponse($this->getMessagesAndViolations($errors));
         }
 
-        if(!empty($parent = $data['parent'] )){
-            if ($parentCategory = $this->getCategoryById($parent)){
-                $category->setParent($parentCategory);
-            }
+        if(isset($data['parent']) && is_numeric($parent = $data['parent'])){
+            $category->setParent($this->getCategoryById($parent));
         }
 
         $this->categoryRepository->save($category);
@@ -78,27 +78,22 @@ class CategoryService extends AbstractService{
     }
 
     /**
-     * @param $userId
-     * @return Category[] | null
-     */
-    public function getCategories($user)
-    {
-        return $this->categoryRepository->findBy(
-            array("user" => $user),
-            array('id'=> 'desc')
-        );
-    }
-
-    /**
      * @param $user
      * @param $categoryId
      * @return Category
      */
-    public function getCategory($user, $categoryId)
+    public function getCategory($categoryId)
     {
-        return $this->categoryRepository->findOneBy(
-            array("user" => $user, "id" => $categoryId)
-        );
+        return $this->categoryRepository->find($categoryId);
+    }
+
+    /**
+     * @param $userId
+     * @return Category[] | null
+     */
+    public function getCategories()
+    {
+        return $this->categoryRepository->findBy([],['id'=> 'desc']);
     }
 
     /**

@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
+use App\Traits\DataLoader;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\CategoryValidator;
 use App\Validator\Constraints\CategoryConstraint;
+use DMS\Filter\Rules as Filter;
 
 
 /**
@@ -20,6 +21,8 @@ use App\Validator\Constraints\CategoryConstraint;
  */
 class Category
 {
+    use DataLoader;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -33,15 +36,14 @@ class Category
      * @Groups({"public", "allowPosted"})
      * @Assert\NotBlank(message="le nom de catégorie est obligatoire")
      * @Assert\Length(
-     * min = "3",
-     * max = "100",
-     * minMessage = "Nom categorie doit faire au moins 3 caractères",
-     * maxMessage = "Nom categorie ne peut pas être plus long que 100 caractères")
-     * @Assert\Regex(
-     *     pattern="/[a-zA-Z0-9]/",
-     *     match=false,
-     *     message="Nom categorie invalide")
-      */
+     *      min = "5", minMessage = "Nom categorie doit faire au moins 3 caractères",
+     *      max = "100", maxMessage = "Nom categorie ne peut pas être plus long que 100 caractères"
+     * )
+     *
+     * @Filter\StripTags()
+     * @Filter\Trim()
+     * @Filter\StripNewlines()
+     */
     private $name;
 
     /**
@@ -188,7 +190,7 @@ class Category
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser($user): self
     {
         $this->user = $user;
         return $this;
