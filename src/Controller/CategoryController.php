@@ -37,41 +37,29 @@ class CategoryController extends BaseController
 
     /**
      * @Rest\Post("/category", name="post_category")
-     * @param Category $category
      * @param Request  $request
      * @return View
-     * @throws \App\Response\ApiResponseException
-     * @ParamConverter(
-     *     "category",
-     *     converter="fos_rest.request_body",
-     *     options={"deserializationContext"={"groups"={"allowPosted"}, "version"="1.0"}},
-     * )
      * @Rest\View(serializerGroups={"public"},serializerEnableMaxDepthChecks=1, StatusCode = 201)
      */
-    public function postCategory(Category $category,  Request $request): View
+    public function postCategory(Request $request): View
     {
         $data = $request->request->all();
-
-        return $this->view($this->categoryService->saveCategory($category->setUser($this->getUser()), $data));
+        return $this->view($this->categoryService->saveCategory($data));
     }
 
     /**
      * @Rest\Put("/category/{id}", name="put_category")
-     * @param Request  $request
-     * @param Category $category
+     * @param Request $request
+     * @param int     $id
      * @return View
-     *
      * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
      */
-    public function putCategory(Request $request, Category $category): View
+    public function putCategory(Request $request, $id): View
     {
         $data = $request->request->all();
+        $data['updateId'] = $id;
 
-        $category = $this->deserialize($request, Category::class,
-            ['object_to_populate' => $category, 'groups' => 'allowPosted']
-        );
-
-        return $this->view($this->categoryService->saveCategory($category, $data), Response::HTTP_OK);
+        return $this->view($this->categoryService->saveCategory($data), Response::HTTP_OK);
     }
 
     /**
@@ -82,7 +70,7 @@ class CategoryController extends BaseController
      */
     public function showCategory(int $categoryId) : View
     {
-        return $this->view($this->categoryService->getCategory($this->getUser(), $categoryId), Response::HTTP_OK);
+        return $this->view($this->categoryService->getCategory($categoryId), Response::HTTP_OK);
     }
 
     /**
@@ -92,7 +80,7 @@ class CategoryController extends BaseController
      */
     public function showCategories() : View
     {
-        return $this->view($this->categoryService->getCategories($this->getUser()), Response::HTTP_OK);
+        return $this->view($this->categoryService->getCategories(), Response::HTTP_OK);
     }
 
     /**
