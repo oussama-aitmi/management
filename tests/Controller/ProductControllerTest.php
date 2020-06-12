@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\DataFixtures\CategoryFixtures;
 use App\Repository\CategoryRepository;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductControllerTest extends AbstractControllerTest
@@ -57,6 +58,7 @@ class ProductControllerTest extends AbstractControllerTest
         $this->assertEquals($result['variations'][1]['value'], $data['variations'][1]['value']);
     }
 
+
     public function testCreateActionWithImages()
     {
         $this->loadFixtures([CategoryFixtures::class]);
@@ -64,11 +66,26 @@ class ProductControllerTest extends AbstractControllerTest
 
         $data = $this->getProductFaker();
         $data['category'] = $category->getId();
+        $files['images'][] = $this->prepareFile();
 
-        $this->sendRequest('POST', '', $data);
+        $this->sendRequest('POST', '', $data, $files);
+
         $result = $this->getDecodedResult();
 
         $this->basicAssertions($result, Response::HTTP_CREATED);
         $this->assertNotEmpty($result['id']);
+        $this->assertNotEmpty($result['mediaProducts'][0]['id']);
+        $this->assertNotEmpty($result['mediaProducts'][0]['path']);
+    }
+
+    private function prepareFile()
+    {
+        $dir = __DIR__.'/../DataFixtures/Media/';
+        $filesPath = $dir.'test.png';
+        $filesPathCopy = $dir.'example.copy.png';
+
+        copy($filesPath, $filesPathCopy);
+
+        return new UploadedFile($filesPathCopy, 'example.copy.png', 'image/png', null, true);
     }
 }
