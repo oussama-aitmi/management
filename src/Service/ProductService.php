@@ -38,7 +38,7 @@ class ProductService extends AbstractService
         CategoryService $categoryService,
         VariationService $variationService,
         MediaProductService $mediaProductService
-        )
+    )
     {
         $this->security = $security;
         $this->validator = $validator;
