@@ -3,10 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../tmtpro/apittp/.idea/apittp.iml" filepath="$PROJECT_DIR$/../tmtpro/apittp/.idea/apittp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../argondashboardpro-111/.idea/argondashboardpro-111.iml" filepath="$PROJECT_DIR$/../argondashboardpro-111/.idea/argondashboardpro-111.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../tota/docker-symfony/.idea/docker-symfony.iml" filepath="$PROJECT_DIR$/../tota/docker-symfony/.idea/docker-symfony.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/management.iml" filepath="$PROJECT_DIR$/.idea/management.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../management-front/.idea/management-front.iml" filepath="$PROJECT_DIR$/../management-front/.idea/management-front.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../vue/.idea/vue-argon-dashboard-master.iml" filepath="$PROJECT_DIR$/../vue/.idea/vue-argon-dashboard-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../tota/symfony-5-es-cqrs-boilerplate/.idea/symfony-5-es-cqrs-boilerplate.iml" filepath="$PROJECT_DIR$/../tota/symfony-5-es-cqrs-boilerplate/.idea/symfony-5-es-cqrs-boilerplate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../tota/test/.idea/test.iml" filepath="$PROJECT_DIR$/../tota/test/.idea/test.iml" />
     </modules>
   </component>
 </project>
