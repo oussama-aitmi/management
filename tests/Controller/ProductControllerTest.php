@@ -56,6 +56,8 @@ class ProductControllerTest extends AbstractControllerTest
         $this->assertEquals($result['variations'][0]['value'], $data['variations'][0]['value']);
         $this->assertEquals($result['variations'][0]['basePrice'], $data['variations'][0]['basePrice']);
         $this->assertEquals($result['variations'][1]['value'], $data['variations'][1]['value']);
+        $this->assertEquals($result['variations'][2]['value'], $data['variations'][2]['value']);
+        $this->assertEquals($result['variations'][4]['value'], $data['variations'][4]['value']);
     }
 
 
