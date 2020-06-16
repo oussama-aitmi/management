@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Traits\DataLoader;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -14,8 +13,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class MediaProduct extends Document
 {
-    use DataLoader;
-
     protected $uploadRootDir = 'products';
 
     /**

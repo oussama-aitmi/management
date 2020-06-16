@@ -8,9 +8,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use DMS\Bundle\FilterBundle\Rule as SfFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-abstract class Document
+abstract class Document extends AbstractEntity
 {
-
     /**
      * @ORM\Column(type="guid", nullable=true)
      * @SfFilter\Service(service="App\Rules\DocumentRules", method="uid")

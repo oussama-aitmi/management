@@ -2,19 +2,16 @@
 
 namespace App\Entity;
 
-use App\Traits\DataLoader;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use DMS\Filter\Rules as Filter;
 
-
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VariationRepository")
  */
-class Variation
+class Variation extends AbstractEntity
 {
-    use DataLoader;
 
     /**
      * @ORM\Id()
@@ -144,9 +141,7 @@ class Variation
 
     public function setQuantity($quantity): self
     {
-        $this->quantity = !empty($quantity) ? $quantity : 0;
-        return $this;
+        $this->quantity = !empty($quantity) ? $quantity : 0;return $this;
     }
-
 
 }

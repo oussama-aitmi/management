@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Traits\DataLoader;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,14 +14,11 @@ use DMS\Filter\Rules as Filter;
 
 /**
  * Category
- *
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
  * @CategoryConstraint
  */
-class Category
+class Category extends AbstractEntity
 {
-    use DataLoader;
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -150,7 +146,6 @@ class Category
                 $subCategory->setParent(null);
             }
         }
-
         return $this;
     }
 
@@ -168,7 +163,6 @@ class Category
             $this->product[] = $product;
             $product->setCategory($this);
         }
-
         return $this;
     }
 
@@ -181,7 +175,6 @@ class Category
                 $product->setCategory(null);
             }
         }
-
         return $this;
     }
 
@@ -195,5 +188,4 @@ class Category
         $this->user = $user;
         return $this;
     }
-    
 }

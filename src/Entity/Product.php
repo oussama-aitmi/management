@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Traits\DataLoader;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,13 +16,11 @@ use App\Validator\Constraints\ProductConstraint;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
- *
  * @ProductConstraint
  */
-class Product
+class Product extends AbstractEntity
 {
     use TimestampableEntity;
-    use DataLoader;
 
     /**
      * @ORM\Id()
@@ -414,7 +411,6 @@ class Product
             $this->mediaProducts[] = $mediaProduct;
             $mediaProduct->setProduct($this);
         }
-
         return $this;
     }
 
@@ -427,7 +423,6 @@ class Product
                 $mediaProduct->setProduct(null);
             }
         }
-
         return $this;
     }
 }
