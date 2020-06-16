@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  mysql:
+    container_name: management_mysql
+    image: mysql:5.7
+    ports: ['3306:3306']
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=management
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+  php:
+    container_name: management_php
+    build: ./docker/php
+    ports: ['9000:9001']
+    links:
+      - mysql
+    volumes:
+      - ./:/var/www/symfony:cached
+  nginx:
+    container_name: management_nginx
+    build: ./docker/nginx
+    ports: ['80:80']
+    links:
+      - php
+    volumes:
+      - ./logs/nginx:/var/log/nginx:cached
+      - ./:/var/www/symfony:cached
