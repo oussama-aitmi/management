@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../tmtpro/apittp" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../tota/docker-symfony" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../tota/symfony-5-es-cqrs-boilerplate" vcs="Git" />
-  </component>
-</project>
