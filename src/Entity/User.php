@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,8 +27,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Veuillez saisir votre Prénom")
-     * @Groups({"public", "userCreate"})
+     * @Assert\NotBlank(message="Veuillez saisir votre Prénom", groups={"editUser"})
+     * @Groups({"public", "allowPosted", "editUser"})
      *
      * @Filter\StripTags()
      * @Filter\Trim()
@@ -39,7 +38,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"public", "userCreate"})
+     * @Groups({"public"})
      *
      * @Filter\StripTags()
      * @Filter\Trim()
@@ -51,7 +50,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\NotBlank(message="Please enter an email")
      * @Assert\Email(message="Email format est incorrect")
-     * @Groups({"public", "userCreate", "userChangeEmail"})
+     * @Groups({"public", "allowPosted"})
      */
     private $email;
 
@@ -63,19 +62,19 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="Mot de passe n'est pas valide")
-     * @Groups({ "userCreate", "userChangePassword"})
+     * @Assert\NotBlank(message="Mot de passe n'est pas valide", groups={"changePassword"})
+     * @Groups({ "allowPosted"})
      * @Assert\Length(
      *      min = 6,
-     *      max = 50,
-     *      minMessage = "Mot de passe doit contenir au moins 6 cacactères",
+     *      max = 20,
+     *      minMessage = "Mot de passe doit contenir au moins 6 cacactères et 20 au max",
      * )
      */
     private $password;
 
     /**
      * @Assert\EqualTo(propertyPath="password", message="Mots de passe saisis ne sont pas identiques")
-     * @Groups({"userCreate"})
+     * @Groups({"allowPosted"})
      */
     private $confirm_password;
 
