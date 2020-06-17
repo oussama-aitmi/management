@@ -2,13 +2,11 @@
 
 namespace App\Service;
 
-
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserService extends AbstractService{
@@ -76,7 +74,6 @@ class UserService extends AbstractService{
         ];
     }
 
-
     /**
      * @param $data
      * return boolean
@@ -98,7 +95,6 @@ class UserService extends AbstractService{
         return $user;
     }
 
-
     /**
      * @param $data
      * @return boolean
@@ -112,15 +108,15 @@ class UserService extends AbstractService{
             $this->renderFailureResponse('Ancien mot de passe est incorrect!');
         }
 
-        $user->setPassword($this->encoder->encodePassword($user, $data['newPassword']));
+        $user->setPassword($data['newPassword']);
 
         if (\count($errors = $this->validator->validate($user, null, ['changePassword']))) {
             $this->renderFailureResponse($this->getMessagesAndViolations($errors));
         }
 
+        $user->setPassword($this->encoder->encodePassword($user, $data['newPassword']));
         $this->userRepository->save($user);
 
         return true;
     }
-
 }
