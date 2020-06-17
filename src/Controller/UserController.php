@@ -5,77 +5,73 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Service\UserService;
 use FOS\RestBundle\View\View;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\ConstraintViolationList;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * @Route("api", name="api_")
+ * @Route("api", name="profile_")
  */
 class UserController extends BaseController
 {
 
     /**
-     * @Rest\Post("/register", name="api_register")
+     * @var UserService
+     */
+    private $userService;
+
+    function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
+    /**
+     * @Route("/register", name="api_register", methods={"POST"})
      * @param User        $user
-     * @param UserService $authService
      * @return View
      * @ParamConverter(
      *     "user",
      *     converter="fos_rest.request_body",
-     *     options={"deserializationContext"={"groups"={"userCreate"}, "version"="1.0"}},
+     *     options={"deserializationContext"={"groups"={"allowPosted"}, "version"="1.0"}},
      * )
      * @Rest\View(serializerGroups={"public"}, StatusCode = 201)
      */
-    public function register(User $user, UserService $authService)
+    public function register(User $user)
     {
-        return $this->view($authService->register($user), Response::HTTP_CREATED);
+        return $this->view($this->userService->registerUser($user), Response::HTTP_CREATED);
     }
 
     /**
-     * @Route("/checkEmailExist", methods={"POST", "GET"})
-     * @Rest\View(StatusCode = 202)
-     * @ParamConverter(
-     *     "user",
-     *     converter="fos_rest.request_body",
-     *     options={
-     *         "validator"={ "groups"="userChangeEmail" }
-     *     }
-     * )
-     * @param User                    $user
-     * @param ConstraintViolationList $violations
+     * @Route("/profile/edit", name="api_edit", methods={"PATCH"})
+     * @param Request     $request
+     * @return View
+     * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
      */
-    public function checkExistEmail(User $user, ConstraintViolationList $violations)
+    public function editUser(Request $request)
     {
+        return $this->view($this->userService->editUser($request->request->all()), Response::HTTP_OK);
     }
 
     /**
-     * @param User $user
+     * @Route("/profile/updatePassword", name="api_edit_password", methods={"PATCH"})
+     * @param Request     $request
+     * @return View
+     * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
      */
-    public function updatePassword(User $user)
+    public function updatePassword(Request $request)
     {
-
+        return $this->view($this->userService->upgradePassword($request->request->all()), Response::HTTP_OK);
     }
 
     /**
-     * @Route("/userConnected", methods={"POST", "GET"})
+     * @Route("/user", name="api")
      * @Rest\View(serializerGroups={"public"}, StatusCode = 202)
      * @return View
      */
     public function LoggedInUser()
-    {
-        return $this->view($this->getUser());
-    }
-
-    /**
-     * @Route("/api", name="api")
-     * @Rest\View(serializerGroups={"public"}, StatusCode = 202)
-     * @return View
-     */
-    public function api()
     {
         return $this->view([sprintf('Logged in as %s', $this->getUser())],Response::HTTP_ACCEPTED);
     }
