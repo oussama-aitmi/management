@@ -44,7 +44,7 @@ class ProductService extends AbstractService
         $this->variationService = $variationService;
         $this->productRepository = $productRepository;
         $this->mediaProductService = $mediaProductService;
-        $this->categoryService = $categoryService
+        $this->categoryService = $categoryService;
     }
 
     /**
