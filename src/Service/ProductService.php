@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Service;
 
 use App\Entity\Product;
@@ -45,7 +44,7 @@ class ProductService extends AbstractService
         $this->variationService = $variationService;
         $this->productRepository = $productRepository;
         $this->mediaProductService = $mediaProductService;
-        $this->categoryService = $categoryService;
+        $this->categoryService = $categoryService
     }
 
     /**
@@ -78,7 +77,7 @@ class ProductService extends AbstractService
          * Next Validation for Tags
          */
 
-        if ( \count( $errors ) ) {
+        if (\count( $errors )) {
             $outPut['errors'] = $errors;
             $this->renderFailureResponse($outPut);
         }
@@ -94,7 +93,7 @@ class ProductService extends AbstractService
         $productEntity = $this->productRepository->loadData($data);
         $productValidation = $this->getDetailsViolations($this->validator->validate($productEntity));
 
-        if(!empty($productValidation)){
+        if(!empty($productValidation)) {
             $errors['product'] = $productValidation;
         }
 
@@ -118,7 +117,7 @@ class ProductService extends AbstractService
          */
         $product->setCategory($this->categoryService->getCategoryById($data['category']));
 
-        if (isset($entities['images'])){
+        if (isset($entities['images'])) {
             foreach ($entities['images'] as $mediaProduct) {
                 $product->addMediaProduct($mediaProduct);
             }
@@ -127,7 +126,7 @@ class ProductService extends AbstractService
         /*
         * Update case : We keep the owner of the product if the administrator who is doing the update
         */
-        if(!isset($data['updateId'])){
+        if(!isset($data['updateId'])) {
             $product->setUser($this->security->getUser());
         }
 
@@ -138,16 +137,6 @@ class ProductService extends AbstractService
         $this->variationService->saveVariations($product, $entities);
 
         return $product;
-    }
-
-    public function getProduct(int $productId)
-    {
-        return [];
-    }
-
-    public function getProducts()
-    {
-        return [];
     }
 
 }

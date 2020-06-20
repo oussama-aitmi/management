@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Service\ProductService;
+use App\Repository\ProductRepository;
 use FOS\RestBundle\View\View;
+use App\Service\ProductService;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -70,6 +73,43 @@ class ProductController extends BaseController
     }
 
     /**
+     * @Rest\Get("/articles", name="app_article_list")
+     * @param ParamFetcherInterface $paramFetcher
+     * @param PaginatorInterface    $paginator
+     * @param ProductRepository     $repository
+     * @return View
+     * @Rest\QueryParam(
+     *     name="keyword",
+     *     requirements="[a-zA-Z0-9]",
+     *     nullable=true,
+     *     description="The keyword to search for."
+     * )
+     * @Rest\QueryParam(
+     *     name="page",
+     *     requirements="[a-zA-Z0-9]",
+     *     default="1",
+     *     description="The pagination offset"
+     * )
+     *
+     * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
+     */
+    public function getListProducts(
+        ParamFetcherInterface $paramFetcher,
+        PaginatorInterface $paginator,
+        ProductRepository $repository)
+    {
+        $queryBuilder = $repository->getWithSearchQueryBuilder(
+            $paramFetcher->get('keyword')
+        );
+
+        return $this->view($paginator->paginate(
+            $queryBuilder,
+            (int) $paramFetcher->get('page'),
+            10
+        ), Response::HTTP_OK);
+    }
+
+    /**
      * @Rest\Get("/product/{productId}", name="get_product")
      * @param int      $productId
      * @return View
@@ -77,17 +117,7 @@ class ProductController extends BaseController
      */
     public function showProduct(int $productId) : View
     {
-        return $this->view($this->productService->getProduct($productId), Response::HTTP_OK);
-    }
-
-    /**
-     * @Rest\Get("/product", name="get_products")
-     * @return View
-     * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
-     */
-    public function showProducts() : View
-    {
-        return $this->view($this->productService->getProducts(), Response::HTTP_OK);
+        #return $this->view($this->productService->getProduct($productId), Response::HTTP_OK);
     }
 
 }

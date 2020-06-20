@@ -2,10 +2,10 @@
 
 namespace App\Repository;
 
-use App\Entity\Category;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -19,6 +19,24 @@ class ProductRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Product::class);
+    }
+
+    /**
+     * @param string|null $keyword
+     * @return QueryBuilder
+     */
+    public function getWithSearchQueryBuilder(?string $keyword): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if ($keyword) {
+            $qb->andWhere('p.name LIKE :keyword OR p.mallDescription LIKE :keyword')
+                ->setParameter('keyword', '%' . $keyword . '%')
+            ;
+        }
+
+        return $qb
+            ->orderBy('p.createdAt', 'DESC');
     }
 
     /**
