@@ -67,7 +67,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @Route("/user", name="api")
+     * @Route("/profile/user", name="api")
      * @Rest\View(serializerGroups={"public"}, StatusCode = 202)
      * @return View
      */
