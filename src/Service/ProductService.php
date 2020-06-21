@@ -23,15 +23,18 @@ class ProductService extends AbstractService
 
     private $categoryService;
 
+    private $tagService;
+
     /**
      * ProductService constructor.
      *
-     * @param Security $security
-     * @param ProductRepository $productRepository
-     * @param ValidatorInterface $validator
-     * @param CategoryService $categoryService
-     * @param VariationService $variationService
+     * @param Security            $security
+     * @param ProductRepository   $productRepository
+     * @param ValidatorInterface  $validator
+     * @param CategoryService     $categoryService
+     * @param VariationService    $variationService
      * @param MediaProductService $mediaProductService
+     * @param TagService          $tagService
      */
     public function __construct(
         Security $security,
@@ -39,7 +42,8 @@ class ProductService extends AbstractService
         ValidatorInterface $validator,
         CategoryService $categoryService,
         VariationService $variationService,
-        MediaProductService $mediaProductService
+        MediaProductService $mediaProductService,
+        TagService $tagService
     )
     {
         $this->security = $security;
@@ -48,6 +52,7 @@ class ProductService extends AbstractService
         $this->productRepository = $productRepository;
         $this->mediaProductService = $mediaProductService;
         $this->categoryService = $categoryService;
+        $this->tagService = $tagService;
     }
 
     /**
@@ -60,7 +65,7 @@ class ProductService extends AbstractService
     {
         $entities = [];
 
-        $this->validateProductAndRelatedResources($data, $entities, $files);
+        $this->callMethodsValidateProductAndRelatedResources($data, $entities, $files);
         return $this->saveProductAndRelatedResources($entities, $data);
     }
 
@@ -69,16 +74,14 @@ class ProductService extends AbstractService
      * @param $entities
      * @throws \App\Response\ApiResponseException
      */
-    private function validateProductAndRelatedResources($data, &$entities, $files)
+    private function callMethodsValidateProductAndRelatedResources($data, &$entities, $files)
     {
         $errors = [];
 
         $this->validateProduct($data, $entities, $errors);
         $this->variationService->validateVariations($data, $entities, $errors);
         $this->mediaProductService->validateImages($entities, $errors, $files);
-        /*
-         * Next Validation for Tags
-         */
+        $this->tagService->validateTags($entities, $errors, $files);
 
         if (\count( $errors )) {
             $outPut['errors'] = $errors;
@@ -107,6 +110,7 @@ class ProductService extends AbstractService
      * @param $entities
      * @param $data
      * @return mixed
+     * @throws \App\Response\ApiResponseException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -127,7 +131,7 @@ class ProductService extends AbstractService
         }
 
         /*
-        * Update case : We keep the owner of the product if the administrator who is doing the update
+        * Update case : We keep the owner of the product if the administrator who is Updating
         */
         if(!isset($data['updateId'])) {
             $product->setUser($this->security->getUser());
@@ -138,6 +142,7 @@ class ProductService extends AbstractService
          */
         $this->productRepository->save($product);
         $this->variationService->saveVariations($product, $entities);
+        $this->tagService->saveTags($product, $entities);
 
         return $product;
     }
