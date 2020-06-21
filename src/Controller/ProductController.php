@@ -81,17 +81,19 @@ class ProductController extends BaseController
      * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
      * @return View
      */
-    public function showProducts(ParamFetcherInterface $paramFetcher, PaginatorInterface $paginator)
+    public function showProducts(ParamFetcherInterface $paramFetcher, PaginatorInterface $paginator): View
     {
         $queryBuilder = $this->getDoctrine()
             ->getRepository(Product::class)
-            ->getWithSearchQueryBuilder($paramFetcher->get('keyword'));
+            ->getWithSearchQueryBuilder($paramFetcher->get('keyword')
+            );
 
-        return $this->view($paginator->paginate(
+        return $this->view(
+            $paginator->paginate(
             $queryBuilder,
             (int) $paramFetcher->get('page'),
-            10
-        ), Response::HTTP_OK);
+            10)
+            , Response::HTTP_OK);
     }
 
     /**
@@ -100,7 +102,7 @@ class ProductController extends BaseController
      * @return View
      * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
      */
-    public function showProduct(Product $product) : View
+    public function showProduct(Product $product): View
     {
         return $this->view($product);
     }
