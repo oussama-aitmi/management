@@ -67,4 +67,21 @@ trait FakerTrait
 
         return $variation;
     }
+
+    /**
+     * @return array
+     */
+    public function getTagsFaker()
+    {
+        $faker = $this->getFaker();
+
+        for ($c = 1; $c <= 5; $c++){
+            $tags[] = [
+                'name'    => $faker->text(10),
+            ];
+        }
+
+        return $tags;
+    }
+
 }

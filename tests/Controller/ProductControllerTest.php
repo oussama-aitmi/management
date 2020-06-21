@@ -60,6 +60,27 @@ class ProductControllerTest extends AbstractControllerTest
         $this->assertEquals($result['variations'][4]['value'], $data['variations'][4]['value']);
     }
 
+    public function testCreateActionWithTags()
+    {
+        $this->loadFixtures([CategoryFixtures::class]);
+        $category = self::$container->get(CategoryRepository::class)->find(1);
+
+        $data = $this->getProductFaker();
+        $data['category'] = $category->getId();
+        $data['tags'] = $this->getTagsFaker();
+
+        $this->sendRequest('POST', '', $data);
+        $result = $this->getDecodedResult();
+
+
+        $this->basicAssertions($result, Response::HTTP_CREATED);
+        $this->assertNotEmpty($result['id']);
+        $this->assertEquals($result['tags'][0]['name'], $data['tags'][0]['name']);
+        $this->assertEquals($result['tags'][1]['name'], $data['tags'][1]['name']);
+        $this->assertEquals($result['tags'][2]['name'], $data['tags'][2]['name']);
+        $this->assertEquals($result['tags'][3]['name'], $data['tags'][3]['name']);
+        $this->assertEquals($result['tags'][4]['name'], $data['tags'][4]['name']);
+    }
 
     public function testCreateActionWithImages()
     {
