@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Repository\ProductRepository;
 use FOS\RestBundle\View\View;
 use App\Service\ProductService;
 use Knp\Component\Pager\PaginatorInterface;
@@ -13,6 +12,7 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("api", name="api_")
@@ -20,17 +20,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class ProductController extends BaseController
 {
 
-    /**
-     * @var ProductService
-     */
     private $productService;
 
-    /**
-     * ProductService constructor.
-     *
-     * @param ProductService $productService
-     *
-     */
     public function __construct(ProductService $productService)
     {
         $this->productService = $productService;
@@ -41,8 +32,8 @@ class ProductController extends BaseController
      * @param Request  $request
      * @return View
      * @throws \App\Response\ApiResponseException
-     * @Rest\View(serializerGroups={"public"}, serializerEnableMaxDepthChecks=1, StatusCode = 201)
      *
+     * @Rest\View(serializerGroups={"public"}, serializerEnableMaxDepthChecks=1, StatusCode = 201)
      * @IsGranted("ROLE_MANAGE")
      */
     public function postProduct(Request $request): View
@@ -60,8 +51,8 @@ class ProductController extends BaseController
      * @param int     $id
      * @return View
      * @throws \App\Response\ApiResponseException
-     * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
      *
+     * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
      * @IsGranted("PRODUCT_MANAGE", subject="product")
      */
     public function putProduct(Request $request, Product $product, $id): View
@@ -73,11 +64,9 @@ class ProductController extends BaseController
     }
 
     /**
-     * @Rest\Get("/articles", name="app_article_list")
+     * @Rest\Get("/products", name="get_products")
      * @param ParamFetcherInterface $paramFetcher
      * @param PaginatorInterface    $paginator
-     * @param ProductRepository     $repository
-     * @return View
      * @Rest\QueryParam(
      *     name="keyword",
      *     requirements="[a-zA-Z0-9]",
@@ -90,17 +79,14 @@ class ProductController extends BaseController
      *     default="1",
      *     description="The pagination offset"
      * )
-     *
      * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
+     * @return View
      */
-    public function getListProducts(
-        ParamFetcherInterface $paramFetcher,
-        PaginatorInterface $paginator,
-        ProductRepository $repository)
+    public function showProducts(ParamFetcherInterface $paramFetcher, PaginatorInterface $paginator)
     {
-        $queryBuilder = $repository->getWithSearchQueryBuilder(
-            $paramFetcher->get('keyword')
-        );
+        $queryBuilder = $this->getDoctrine()
+            ->getRepository(Product::class)
+            ->getWithSearchQueryBuilder($paramFetcher->get('keyword'));
 
         return $this->view($paginator->paginate(
             $queryBuilder,
@@ -110,14 +96,14 @@ class ProductController extends BaseController
     }
 
     /**
-     * @Rest\Get("/product/{productId}", name="get_product")
-     * @param int      $productId
+     * @Rest\Get("/product/{id}", name="get_product")
+     *
      * @return View
      * @Rest\View(serializerGroups={"public"}, StatusCode = 200)
      */
-    public function showProduct(int $productId) : View
+    public function showProduct(Product $product) : View
     {
-        #return $this->view($this->productService->getProduct($productId), Response::HTTP_OK);
+        return $this->view($product);
     }
 
 }
