@@ -42,6 +42,7 @@ abstract class AbstractEntity
         return [
             'createdAt',
             'updatedAt',
+            'slug'
         ];
     }
 
