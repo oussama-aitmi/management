@@ -26,9 +26,12 @@ class ProductService extends AbstractService
     /**
      * ProductService constructor.
      *
-     * @param Security           $security
-     * @param ProductRepository  $productRepository
+     * @param Security $security
+     * @param ProductRepository $productRepository
      * @param ValidatorInterface $validator
+     * @param CategoryService $categoryService
+     * @param VariationService $variationService
+     * @param MediaProductService $mediaProductService
      */
     public function __construct(
         Security $security,
