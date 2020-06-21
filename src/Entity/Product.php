@@ -130,12 +130,6 @@ class Product extends AbstractEntity
     private $quantity;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Variation", mappedBy="product", orphanRemoval=true, cascade={"all"})
-     * @Groups({"variations", "public", "allowPosted"})
-     */
-    private $variations;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"public"})
@@ -157,7 +151,13 @@ class Product extends AbstractEntity
     private $mediaProducts;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Tag", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="App\Entity\Variation", mappedBy="product", orphanRemoval=true, cascade={"all"})
+     * @Groups({"variations", "public", "allowPosted"})
+     */
+    private $variations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Tag", mappedBy="product", cascade={"all"})
      * @Groups({"public", "allowPosted"})
      */
     private $tags;
