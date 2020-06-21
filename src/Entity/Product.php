@@ -156,12 +156,18 @@ class Product extends AbstractEntity
      */
     private $mediaProducts;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Tag", mappedBy="product")
+     */
+    private $tags;
+
 
     public function __construct()
     {
         $this->variations = new ArrayCollection();
         $this->category = new ArrayCollection();
         $this->mediaProducts = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function setId($id): self
@@ -423,6 +429,37 @@ class Product extends AbstractEntity
                 $mediaProduct->setProduct(null);
             }
         }
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tag[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+            $tag->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
+            // set the owning side to null (unless already changed)
+            if ($tag->getProduct() === $this) {
+                $tag->setProduct(null);
+            }
+        }
+
         return $this;
     }
 }
