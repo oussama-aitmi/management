@@ -158,6 +158,7 @@ class Product extends AbstractEntity
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Tag", mappedBy="product")
+     * @Groups({"public", "allowPosted"})
      */
     private $tags;
 
