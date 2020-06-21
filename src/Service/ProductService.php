@@ -79,9 +79,9 @@ class ProductService extends AbstractService
         $errors = [];
 
         $this->validateProduct($data, $entities, $errors);
+        $this->tagService->validateTags($data, $entities, $errors);
         $this->variationService->validateVariations($data, $entities, $errors);
         $this->mediaProductService->validateImages($entities, $errors, $files);
-        $this->tagService->validateTags($entities, $errors, $files);
 
         if (\count( $errors )) {
             $outPut['errors'] = $errors;
