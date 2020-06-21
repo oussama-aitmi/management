@@ -12,6 +12,7 @@ use App\Repository\UserRepository;
 use App\Service\CategoryService;
 use App\Service\MediaProductService;
 use App\Service\ProductService;
+use App\Service\TagService;
 use App\Service\VariationService;
 use App\Tests\DataFixtures\FakerTrait;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
@@ -63,6 +64,7 @@ class ProductServiceTest extends WebTestCase
             ->willReturn([]);
 
         $variationService = $this->getMockBuilder(VariationService::class)->disableOriginalConstructor()->getMock();
+        $tagService = $this->getMockBuilder(TagService::class)->disableOriginalConstructor()->getMock();
         $mediaProductService = $this->getMockBuilder(MediaProductService::class)->disableOriginalConstructor()->getMock();
 
         $productService = new ProductService(
@@ -71,7 +73,8 @@ class ProductServiceTest extends WebTestCase
             $validator,
             $categoryService,
             $variationService,
-            $mediaProductService
+            $mediaProductService,
+            $tagService
         );
 
         $product =$productService->saveProduct($data);
@@ -125,13 +128,16 @@ class ProductServiceTest extends WebTestCase
             ->method('validate')
             ->willReturn([]);
 
+        $tagService = $this->getMockBuilder(TagService::class)->disableOriginalConstructor()->getMock();
+
         $productService = new ProductService(
             $security,
             $productRepository,
             $validator,
             $categoryService,
             $variationService,
-            $mediaProductService
+            $mediaProductService,
+            $tagService
         );
 
         $product =$productService->saveProduct($data);
