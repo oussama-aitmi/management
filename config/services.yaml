@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    es_config: {'hosts': ['http://localhost:9200']}
 
 services:
     # default configuration for services in *this* file
@@ -34,9 +35,12 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    #App\EventListener\ApiExceptionListener:
-    #    tags:
-    #        - { name: kernel.event_listener, event: kernel.exception }
+    #Creating Service with Non Static Factory
+    Elasticsearch\ClientBuilder: ~
+    Elasticsearch\Client:
+        factory:   ['@Elasticsearch\ClientBuilder', fromConfig]
+        arguments: ['%es_config%']
+
 
     #App\EventSubscriber\ResponseSubscriber:
         #tags:
@@ -47,7 +51,6 @@ services:
     #    class: App\Normalizer\ConstraintViolationListNormalizer
     #    tags:
     #        - { name: app.normalizer }
-
 
     #app.converter.create_entity:
     #    class: App\ParamConverter\SerializedParamConverter
