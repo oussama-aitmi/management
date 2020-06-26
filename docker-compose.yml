@@ -26,3 +26,14 @@ services:
     volumes:
       - ./logs/nginx:/var/log/nginx:cached
       - ./:/var/www/symfony:cached
+  es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    environment:
+      - "discovery.type=single-node"
+      - "bootstrap.memory_lock=true"
+      - "ES_JAVA_OPTS=-Xms1G -Xmx1G"
+      - "xpack.security.enabled=false"
+      - "http.cors.enabled=true"
+      - "http.cors.allow-origin=*"
+    ports:
+      - 9201:9200
