@@ -5,14 +5,15 @@
 <p>What things you need to install the software and how to install them.</p>
 
 <ul>
-<li>PHP 7.3.0 (or higher)</li>
+<li>PHP 7.4.0 (or higher)</li>
 <li>composer</li>
-<li>symfony</li>
+<li>mysql 5.7 (or higher)</li>
+<li>Elastic 7.6.0 (or higher)</li>
 </ul>
 
-<p>Another alternative via docker</p>
+<p>Another alternative via docker:</p>
 
-run docker and connect to container
+Run docker and connect to container
 
 <pre>
   docker-compose build
